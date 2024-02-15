@@ -1,6 +1,7 @@
 const controller = {};
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const AUTH_KEY = process.env.AUTH_KEY;
 const WORK_FACTOR = parseInt(process.env.WORK_FACTOR);
@@ -11,7 +12,7 @@ const db = require('../models/gooseModel');
 
 controller.handleDetails = async(req, res, next) => {
   try {
-    const {username, password} = req.body;
+    const { username, password } = req.body;
     datedLog(`Handling user details for "${username}"...`);
     if (
       typeof username !== 'string' ||
@@ -32,9 +33,9 @@ controller.handleDetails = async(req, res, next) => {
       message: {err: `Invalid password format.`}
     })
     res.locals.password = await bcrypt.hash(password, WORK_FACTOR);
-    next();
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.handleDetails: ${err}`,
       message: {err: 'Unknown error occurred in handling user details.'}
     })
@@ -57,10 +58,9 @@ controller.attemptSignup = async(req, res, next) => {
     }
     const newAccountQuery = `INSERT INTO Users (username, password) VALUES ($1, $2)`
     await db.query(newAccountQuery, [username, password]);
-    
-    next();
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.attemptSignup: ${err}`,
       message: {err: 'Unknown error occurred in signup.'}
     })
@@ -69,9 +69,28 @@ controller.attemptSignup = async(req, res, next) => {
 
 controller.attemptLogin = async(req, res, next) => {
   try {
-    next();
+    const { username, password } = req.body;
+    const loginQuery = `SELECT "password" FROM Users WHERE username=$1`;
+    const selectedUser = await db.query(loginQuery, [username]);
+    if (selectedUser.rows.length) {
+      const validPassword = await bcrypt.compare(password, selectedUser.rows[0].password);
+      if (!validPassword) {
+        return next({
+          status: 400,
+          log: `Login aborted -- incorrect password provided for user "${username}".`,
+          message: {err: 'Invalid login details provided.'}
+        })
+      }
+    } else {
+      return next({
+        status: 400,
+        log: `Login aborted -- no user account exists with the name "${username}".`,
+        message: {err: 'Invalid login details provided.'}
+      })
+    }
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.attemptLogin: ${err}`,
       message: {err: 'Unknown error occurred in login.'}
     })
@@ -80,9 +99,13 @@ controller.attemptLogin = async(req, res, next) => {
 
 controller.startSession = async(req, res, next) => {
   try {
-    next();
+    const { username } = req.body;
+    datedLog(`Starting session for user ${username}...`)
+    const token = jwt.sign({ username }, AUTH_KEY);
+    res.cookie('jwt', token, {httpOnly: true});
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.startSession: ${err}`,
       message: {err: 'Unknown error occurred in session.'}
     })
@@ -91,9 +114,9 @@ controller.startSession = async(req, res, next) => {
 
 controller.authorize = async(req, res, next) => {
   try {
-    next();
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.authorize: ${err}`,
       message: {err: 'Unknown error occurred in authorization.'}
     })
@@ -102,9 +125,9 @@ controller.authorize = async(req, res, next) => {
 
 controller.logout = async(req, res, next) => {
   try {
-    next();
+    return next();
   } catch (err) {
-    next({
+    return next({
       log: `Error caught in authController.logout: ${err}`,
       message: {err: 'Unknown error occurred in logout.'}
     })
