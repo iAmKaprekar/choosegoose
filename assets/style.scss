@@ -25,6 +25,10 @@ body {
 
 #goose {
   display: flex;
+  position: absolute;
+  left: 50vw;
+  right: 50vw;
+  bottom: 40vh;
   align-items: center;
   justify-content: center;
   z-index: -1;
@@ -59,7 +63,7 @@ body {
     color: $black;
   }
 
-  #authrequest {
+  #authRequest {
     padding: 6px;
     padding-left: 12px;
     padding-right: 12px;
@@ -67,7 +71,7 @@ body {
     margin: 6px;
   }
 
-  #switchpage {
+  #switchPage {
     font-size: 16px;
     padding: 4px;
     padding-left: 8px;
@@ -83,4 +87,14 @@ body {
     padding: 6px;
     margin-top: 12px;
   }
+}
+
+#listManager {
+  font-family: $font-main;
+  color: $white;
+}
+
+#loading {
+  font-family: $font-main;
+  color: $white;
 }

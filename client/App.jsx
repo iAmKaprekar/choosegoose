@@ -9,6 +9,7 @@ import Sorting from './components/Sorting';
 
 const App = () => {
   const [page, setPage] = useState('loading');
+  const [listId, setListId] = useState(null);
 
   const authenticate = async() => {
     const response = await fetch('/api/auth');
@@ -28,10 +29,10 @@ const App = () => {
       renderedPage = <Authentication login={() => setPage('listManager')}/>;
       break;
     case 'listManager':
-      renderedPage = <ListManager/>;
+      renderedPage = <ListManager listId={listId} setListId={setListId}/>;
       break;
     case 'sorting':
-      renderedPage = <Sorting/>;
+      renderedPage = <Sorting listId={listId} setListId={setListId}/>;
       break;
   }
 

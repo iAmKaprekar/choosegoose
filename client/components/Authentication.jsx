@@ -39,10 +39,10 @@ const Authentication = ({ login }) => {
         <i>{errorBox}</i>
         <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}></input>
         <input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} type="password"></input>
-        <button id='authrequest' onClick={authRequest}>
+        <button id='authRequest' onClick={authRequest}>
           {newAccount ? 'Signup' : 'Login'}
         </button>
-        <button id='switchpage' onClick={switchPage}>
+        <button id='switchPage' onClick={switchPage}>
           <i>{newAccount ? 'Already have an account?' : 'Need to make a new account?'}</i>
         </button>
       </div>
