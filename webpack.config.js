@@ -50,6 +50,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client/index.html'),
+      inject: false
     }),
   ],
   resolve: {
