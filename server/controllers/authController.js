@@ -1,5 +1,8 @@
 const controller = {};
 
+const AUTH_KEY = process.env.AUTH_KEY;
+const WORK_FACTOR = process.env.WORK_FACTOR;
+
 controller.handleDetails = async() => {
 
 }

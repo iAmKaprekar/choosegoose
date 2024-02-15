@@ -3,6 +3,8 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+
 const { datedLog } = require('./dateHandler')
 
 const authRouter = require('./routers/authRouter');
