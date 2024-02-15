@@ -3,14 +3,21 @@ import React, { useState } from "react";
 import ListCreator from './ListManager/ListCreator';
 import ListSelector from './ListManager/ListSelector';
 
-const ListManager = () => {
+const ListManager = ({setListId}) => {
   const [newList, setNewList] = useState(false);
 
-  const renderedPage = newList ? <ListCreator /> : <ListSelector />;
+  const renderedPage = newList ? 
+    <ListCreator
+      setListid={setListId}
+      switchToSelector={() => setNewList(false)}
+    /> :
+    <ListSelector 
+      setListid={setListId}
+      switchToCreator={() => setNewList(true)}
+    />;
 
   return (
     <div id='listManager'>
-      <h1>ListManager</h1>
       {renderedPage}
     </div>
   )

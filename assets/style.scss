@@ -28,7 +28,7 @@ body {
   position: absolute;
   left: 50vw;
   right: 50vw;
-  bottom: 40vh;
+  bottom: 42.5vh;
   align-items: center;
   justify-content: center;
   z-index: -1;
@@ -92,6 +92,19 @@ body {
 #listManager {
   font-family: $font-main;
   color: $white;
+
+  #topBar {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    width: 600px;
+  }
+
+  #existingList {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+  }
 }
 
 #loading {
