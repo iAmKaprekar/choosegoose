@@ -114,6 +114,23 @@ controller.startSession = async(req, res, next) => {
 
 controller.authorize = async(req, res, next) => {
   try {
+    const token = req.cookies.jwt;
+    if (token === undefined) {
+      next({
+        status: 400,
+        log: `Request denied -- no user token provided.`,
+        message: {err: 'Missing user token.'}
+      })
+    }
+    const user = jwt.verify(token, AUTH_KEY).username;
+    if (user === undefined) {
+      next({
+        status: 400,
+        log: `Request denied -- invalid user token provided.`,
+        message: {err: 'Invalid user token.'}
+      })
+    }
+    res.locals.user = user;
     return next();
   } catch (err) {
     return next({
@@ -125,6 +142,7 @@ controller.authorize = async(req, res, next) => {
 
 controller.logout = async(req, res, next) => {
   try {
+    res.clearCookie('jwt');
     return next();
   } catch (err) {
     return next({

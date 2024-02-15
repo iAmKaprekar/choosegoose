@@ -17,4 +17,9 @@ const datedLog = (str) => {
   return dateString;
 }
 
-module.exports = {datedLog};
+const routeLog = (str, next) => {
+  datedLog(str);
+  next();
+}
+
+module.exports = {datedLog, routeLog};
