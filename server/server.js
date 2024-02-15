@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const PORT = 3000;
 
@@ -8,6 +9,12 @@ const authRouter = require('./routers/authRouter');
 const listRouter = require('./routers/listRouter');
 
 app.use(express.json());
+
+if (process.env.NODE_ENV === 'production') {
+  app.get('/', (_, res) => {
+    res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
+  })
+}
 
 app.use('/api/auth', authRouter);
 app.use('/api/list', listRouter);
@@ -23,12 +30,11 @@ app.use((err, req, res, next) => {
     log: 'Unknown error occurred.'
   }
   const errorObj = Object.assign({}, defaultErr, err);
-  const date = new Date();
-  console.error(`${date}: ${errorObj.log}`);
+  console.log(datedLog(errorObj.log));
   return res.status(errorObj.status).json(errorObj.message);
 })
 
-app.listen(() => {
+app.listen(PORT, () => {
   const date = new Date();
   console.log(datedLog(`ChooseGoose server listening on port ${PORT}...`))
 });
