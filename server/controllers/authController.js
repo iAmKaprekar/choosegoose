@@ -46,6 +46,18 @@ controller.attemptSignup = async(req, res, next) => {
     const { username } = req.body;
     const { password } = res.locals;
     datedLog(`Attempting to signup with username "${username}"...`);
+    const usernameQuery = `SELECT * FROM Users WHERE username=$1`;
+    const conflictingUsers = await db.query(usernameQuery, [username])
+    if (conflictingUsers.rows.length) {
+      return next({
+        status: 400,
+        log: `Signup aborted -- account with username "${username}" already exists.`,
+        message: {err: 'Account with requested username already exists.'}
+      })
+    }
+    const newAccountQuery = `INSERT INTO Users (username, password) VALUES ($1, $2)`
+    await db.query(newAccountQuery, [username, password]);
+    
     next();
   } catch (err) {
     next({
