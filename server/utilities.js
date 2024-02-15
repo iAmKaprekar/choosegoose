@@ -12,9 +12,9 @@ const datedLog = (str) => {
     date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()
   }:${
     date.getSeconds() >= 10 ? date.getSeconds() : '0' + date.getSeconds()
-  }`;
-
-  return `${dateString} -- ${str}`
+  } -- ${str}`;
+  console.log(dateString);
+  return dateString;
 }
 
 module.exports = {datedLog};

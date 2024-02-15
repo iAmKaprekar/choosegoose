@@ -7,7 +7,7 @@ require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 
 const cookieParser = require('cookie-parser');
 
-const { datedLog } = require('./dateHandler')
+const { datedLog } = require('./utilities')
 
 const authRouter = require('./routers/authRouter');
 const listRouter = require('./routers/listRouter');
@@ -35,11 +35,11 @@ app.use((err, req, res, next) => {
     log: 'Unknown error occurred.'
   }
   const errorObj = Object.assign({}, defaultErr, err);
-  console.log(datedLog(errorObj.log));
+  datedLog(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 })
 
 app.listen(PORT, () => {
   const date = new Date();
-  console.log(datedLog(`ChooseGoose server listening on port ${PORT}...`))
+  datedLog(`ChooseGoose server listening on port ${PORT}...`)
 });

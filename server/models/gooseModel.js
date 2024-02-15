@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const { datedLog } = require('../dateHandler');
+const { datedLog } = require('../utilities');
 
 const PG_URI = process.env.PG_URI;
 
