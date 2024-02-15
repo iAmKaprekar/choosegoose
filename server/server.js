@@ -5,12 +5,15 @@ const PORT = 3000;
 
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 
+const cookieParser = require('cookie-parser');
+
 const { datedLog } = require('./dateHandler')
 
 const authRouter = require('./routers/authRouter');
 const listRouter = require('./routers/listRouter');
 
 app.use(express.json());
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'production') {
   app.get('/', (_, res) => {

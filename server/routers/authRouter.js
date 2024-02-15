@@ -3,17 +3,28 @@ const { Router } = require('express');
 const router = Router();
 const authController = require('../controllers/authController');
 
-router.post('/signup', (_, res) => {
-  console.log('Hit signup path');
-  res.status(200).json({success: true})
-})
+router.post('/signup',
+  authController.handleDetails,
+  authController.attemptSignup,
+  authController.startSession,
+  (_, res) => res.sendStatus(200)
+);
 
-router.post('/login', (_, res) => {
+router.post('/login',
+  authController.handleDetails,
+  authController.attemptLogin,
+  authController.startSession,
+  (_, res) => res.sendStatus(200)
+);
 
-})
+router.get('/',
+  authController.authorize,
+  (_, res) => res.sendStatus(200)
+)
 
-router.post('/logout', (_, res) => {
-
-})
+router.get('/logout',
+  authController.logout,
+  (_, res) => res.sendStatus(200)
+);
 
 module.exports = router;
