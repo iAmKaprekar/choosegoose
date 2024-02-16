@@ -9,6 +9,7 @@ const ListCreator = ({ goToSorting }) => {
   const [items, setItems] = useState([]);
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
+  const [error, setError] = useState(null);
 
   const createList = async() => {
     const initialData = initializeData(items);
@@ -26,7 +27,7 @@ const ListCreator = ({ goToSorting }) => {
     })
     const data = await creationResponse.json();
     if (data.err) {
-      return console.log(data.err);
+      return setError(data.err);
     }
     console.log(data);
     goToSorting({
@@ -63,6 +64,11 @@ const ListCreator = ({ goToSorting }) => {
     listItems.push(<ListItem removeSelf={() => removeItem(item)} name={item} key={i}/>)
   }
 
+  let errorBox = <></>;
+  if (error) {
+    errorBox = <i><h4 id='error'>{error}</h4></i>;
+  }
+
   return (
     <div id='listCreator'>
       <div className='option'>
@@ -78,6 +84,7 @@ const ListCreator = ({ goToSorting }) => {
         {listItems}
       </div>
       <button onClick={createList}>Begin Sorting</button>
+      {errorBox}
     </div>
   )
 }
