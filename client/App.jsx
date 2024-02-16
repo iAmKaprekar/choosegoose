@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import _style from '../assets/style.css';
+import _style from '../assets/style.scss';
 
 import Authentication from './components/Authentication';
 import ListManager from './components/ListManager';
@@ -12,8 +12,7 @@ const App = () => {
 
   const authenticate = async() => {
     const response = await fetch('/api/auth');
-    const body = await response.json();
-    setPage(body.err ? 'authentication' : 'listManager')
+    setPage(response.ok ? 'listManager' : 'authentication')
   }
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const App = () => {
       renderedPage = <Loading/>;
       break;
     case 'authentication':
-      renderedPage = <Authentication/>;
+      renderedPage = <Authentication login={() => setPage('listManager')}/>;
       break;
     case 'listManager':
       renderedPage = <ListManager/>;
@@ -38,7 +37,6 @@ const App = () => {
 
   return (
     <div id='app'>
-      <h1>App</h1>
       {renderedPage}
     </div>
   );

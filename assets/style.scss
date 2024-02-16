@@ -1,0 +1,50 @@
+$white: #eeeeee;
+$lightgray: #cccccc;
+$darkgray: #333333;
+$black: #111111;
+
+body {
+  background-color: $black;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#authentication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  background-color: $darkgray;
+  box-shadow: 0px 0px 30px 5px #333333;
+  color: $black;
+
+  input {
+    margin: 12px;
+    width: 420px;
+    height: 40px;
+    font-size: 36px;
+    border-radius: 12px;
+    background-color: $white;
+    color: $black;
+  }
+
+  button {
+    border-radius: 12px;
+    background-color: $lightgray;
+    color: $black;
+  }
+
+  #authrequest {
+    font-size: 24px;
+    margin: 6px;
+  }
+
+  #switchpage {
+    font-size: 16px;
+    margin: 12px;
+  }
+}
