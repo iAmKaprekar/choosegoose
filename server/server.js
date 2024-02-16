@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../build')))
   app.get('/', (_, res) => {
     res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
   })
