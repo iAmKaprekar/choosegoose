@@ -130,7 +130,7 @@ body {
   #listSelector {
     padding: 12px;
     margin: 12px;
-    height: 600px;
+    height: 60vh;
     overflow: auto;
     border-radius: 12px;
     border-style: solid;
@@ -190,7 +190,7 @@ body {
       justify-content: top;
       align-items: center;
       overflow: auto;
-      height: 300px;
+      height: 30vh;
       max-height: 300px;
 
       .listItem {

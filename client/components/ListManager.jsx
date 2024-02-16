@@ -11,12 +11,45 @@ const ListManager = ({ setListId, goToSorting }) => {
     goToSorting();
   }
 
+  const initializeData = (items) => {
+    const randomizedItems = items.slice();
+    console.log(randomizedItems.sort(() => Math.random() > 0.5 ? 1 : -1));
+    console.log(randomizedItems);
+    let data = '';
+    for (const item of randomizedItems) {
+      if (data) data += '`';
+      data += item;
+    }
+    return data;
+  }
+
+  const processData = (data) => {
+    const state = {
+      hold: [],
+      mergers: [],
+    };
+    let item = '';
+    for (const char of data) {
+      if (char === '`') {
+        state.hold.push([item]);
+        item = '';
+      } else {
+        item += char;
+      }
+    }
+    if (item) state.hold.push([item]);
+    return state;
+  }
+
   const renderedPage = newList ? 
     <ListCreator
       goToList={goToList}
       goToSorting={goToSorting}
+      initializeData={initializeData}
+      processData={processData}
     /> :
     <ListSelector 
+      processData={processData}
       goToList={goToList}
     />;
 

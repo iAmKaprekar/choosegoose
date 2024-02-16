@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 
+import { createMergers } from '../../sorting';
+
 import ListItem from "./ListItem";
 
-const ListCreator = ({ goToList }) => {
+const ListCreator = ({ goToList, initializeData, processData }) => {
 
   const [items, setItems] = useState([]);
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
 
   const createList = async() => {
+    const initialData = initializeData(items);
+    const initialState = processData(initialData);
+    const readyState = createMergers(initialState);
+    console.log(readyState);
     const creationResponse = await fetch('/api/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

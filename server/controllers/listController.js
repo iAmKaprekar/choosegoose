@@ -20,7 +20,7 @@ controller.createList = async(req, res, next) => {
     const { name, size } = req.body;
     const { userId, username } = res.locals;
     datedLog(`Attemping to create new list "${name}" for "${username}"...`);
-    if (typeof name !== 'string') {
+    if (typeof name !== 'string' || !name.length) {
       return next({
         status: 400,
         log: `Aborted creating new list "${name}" for "${username}" -- received improperly formatted list name.`,
