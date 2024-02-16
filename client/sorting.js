@@ -215,35 +215,11 @@ const handleAnswer = (state, payload) => {
   return newState;
 }
 
-handleAnswer(
-  {
-    hold: [],
-    mergers: [
-      {
-        leftArray: ['apple'],
-        rightArray: ['banana'],
-        mergedArray: [null, null],
-        leftBottom: 0,
-        rightBottom: 0,
-        leftTop: 0,
-        rightTop: 0,
-      },
-      {
-        leftArray: ['carrot'],
-        rightArray: ['durian'],
-        mergedArray: [null, null],
-        leftBottom: 0,
-        rightBottom: 0,
-        leftTop: 0,
-        rightTop: 0,
-      }
-    ]
-  },
-  {
-    mergerIndex: 1,
-    direction: 'Top',
-    choice: 'right',
-  }
-);
-
-export { createMergers, compileData, processData, initializeData };
+export { 
+  compileData,
+  createMergers,
+  generateQuestion,
+  handleAnswer,
+  initializeData,
+  processData,
+};
