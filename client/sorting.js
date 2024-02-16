@@ -171,4 +171,79 @@ const compileData = (state) => {
   return data;
 }
 
+const generateQuestion = (state) => {
+  const { mergers } = state;
+  const mergerIndex = Math.floor(Math.random() * mergers.length);
+  const merger = mergers[mergerIndex];
+  const direction = Math.random() > 0.5 ? 'Top' : 'Bottom';
+  const leftItem = merger.leftArray[merger[`left${direction}`]];
+  const rightItem = merger.rightArray[merger[`right${direction}`]];
+  return {
+    leftItem: leftItem,
+    rightItem: rightItem,
+    direction: direction,
+    mergerIndex: mergerIndex,
+  };
+}
+
+const handleAnswer = (state, payload) => {
+  const newState = JSON.parse(JSON.stringify(state));
+  const { hold, mergers } = newState;
+  const { mergerIndex, direction, choice } = payload;
+  const merger = mergers[mergerIndex];
+  let arrayRef;
+  let indexRef;
+  if (direction === 'Bottom') {
+    arrayRef = choice === 'left' ? merger.leftArray: merger.rightArray;
+    indexRef = `${choice}${direction}`;
+    console.log(merger.mergedArray[merger.leftBottom + merger.rightBottom])
+    merger.mergedArray[merger.leftBottom + merger.rightBottom] = arrayRef[merger[indexRef]++];
+  } else {
+    arrayRef = choice === 'right' ? merger.leftArray: merger.rightArray;
+    indexRef = `${choice === 'right' ? 'left' : 'right'}${direction}`;
+    merger.mergedArray[merger.leftTop + merger.rightTop + 1] = arrayRef[merger[indexRef]--];
+  }
+  const side = indexRef === `left${direction}` ? 'left' : 'right';
+  const otherSide = side === 'left' ? 'right' : 'left';
+  if (merger[`${side}Top`] < merger[`${side}Bottom`]) {
+    for (let i = merger[`${otherSide}Bottom`]; i <= merger[`${otherSide}Top`]; i++) {
+      merger.mergedArray[i + merger[`${side}Bottom`]] = merger[`${otherSide}Array`][i];
+    }
+    hold.push(merger.mergedArray);
+    mergers.splice(mergerIndex, 1);
+  }
+  return newState;
+}
+
+handleAnswer(
+  {
+    hold: [],
+    mergers: [
+      {
+        leftArray: ['apple'],
+        rightArray: ['banana'],
+        mergedArray: [null, null],
+        leftBottom: 0,
+        rightBottom: 0,
+        leftTop: 0,
+        rightTop: 0,
+      },
+      {
+        leftArray: ['carrot'],
+        rightArray: ['durian'],
+        mergedArray: [null, null],
+        leftBottom: 0,
+        rightBottom: 0,
+        leftTop: 0,
+        rightTop: 0,
+      }
+    ]
+  },
+  {
+    mergerIndex: 1,
+    direction: 'Top',
+    choice: 'right',
+  }
+);
+
 export { createMergers, compileData, processData, initializeData };
