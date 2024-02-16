@@ -11,7 +11,11 @@ import Sorting from './components/Sorting';
 const App = () => {
   const [page, setPage] = useState('loading');
   const [listId, setListId] = useState(null);
+  const [listName, setListName] = useState(null);
   const [user, setUser] = useState(null);
+  const [steps, setSteps] = useState(null);
+  const [complete, setComplete] = useState(null);
+  const [sortingState, setSortingState] = useState(null);
 
   const authenticate = async() => {
     const authResponse = await fetch('/api/auth');
@@ -21,6 +25,15 @@ const App = () => {
     const data = await authResponse.json();
     setPage('listManager');
     setUser(data.username);
+  }
+
+  const goToSorting = ({steps, complete, state, name, id}) => {
+    setSteps(steps);
+    setComplete(complete);
+    setSortingState(state);
+    setListName(name);
+    setListId(id);
+    setPage('sorting');
   }
 
   useEffect(() => {
@@ -37,11 +50,26 @@ const App = () => {
       renderedPage = <Authentication login={() => setPage('listManager')} setUser = {setUser}/>;
       break;
     case 'listManager':
-      renderedPage = <ListManager listId={listId} setListId={setListId} goToSorting={() => setPage('sorting')} user={user}/>
+      renderedPage = <ListManager
+        listId={listId}
+        setListId={setListId}
+        goToSorting={goToSorting}
+      />
       navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
     case 'sorting':
-      renderedPage = <Sorting listId={listId} setListId={setListId} goToListManager={() => setPage('listManager')} user={user}/>;
+      renderedPage = <Sorting
+        listId={listId}
+        setListId={setListId}
+        goToListManager={() => setPage('listManager')}
+        steps={steps}
+        complete={complete}
+        sortingState={sortingState}
+        listName={listName}
+        setComplete={setComplete}
+        setSteps={setSteps}
+        setSortingState={setSortingState}
+      />;
       navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
   }

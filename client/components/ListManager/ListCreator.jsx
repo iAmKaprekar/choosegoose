@@ -4,7 +4,7 @@ import { createMergers, compileData, processData, initializeData } from '../../s
 
 import ListItem from "./ListItem";
 
-const ListCreator = ({ goToList }) => {
+const ListCreator = ({ goToSorting }) => {
 
   const [items, setItems] = useState([]);
   const [listName, setListName] = useState('');
@@ -28,7 +28,14 @@ const ListCreator = ({ goToList }) => {
     if (data.err) {
       return console.log(data.err);
     }
-    goToList(data.list.listId);
+    console.log(data);
+    goToSorting({
+      id: data.list.id,
+      name: data.list.name,
+      state: readyState,
+      steps: 0,
+      complete: false,
+    });
   }
 
   const checkKey = (e) => {

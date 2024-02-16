@@ -6,18 +6,12 @@ import ListSelector from './ListManager/ListSelector';
 const ListManager = ({ setListId, goToSorting }) => {
   const [newList, setNewList] = useState(false);
 
-  const goToList = (id) => {
-    setListId(id);
-    goToSorting();
-  }
-
   const renderedPage = newList ? 
     <ListCreator
-      goToList={goToList}
       goToSorting={goToSorting}
     /> :
     <ListSelector 
-      goToList={goToList}
+      goToSorting={goToSorting}
     />;
 
   const topText = newList ? 'Your New List' : 'Your Lists';

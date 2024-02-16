@@ -215,9 +215,15 @@ const handleAnswer = (state, payload) => {
   return newState;
 }
 
+const determineCompletion = (state) => {
+  const { mergers, hold } = state;
+  return !mergers.length && !hold[1];
+}
+
 export { 
   compileData,
   createMergers,
+  determineCompletion,
   generateQuestion,
   handleAnswer,
   initializeData,
