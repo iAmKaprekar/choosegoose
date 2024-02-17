@@ -33,16 +33,19 @@ const Authentication = ({ login }) => {
   const errorBox = error ? <div id='error'>{error}</div> : <></>;
 
   return (
-    <div id='authentication'>
-      <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}></input>
-      <input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} type="password"></input>
-      <button id='authrequest' onClick={authRequest}>
-        {newAccount ? 'Signup' : 'Login'}
-      </button>
-      <button id='switchpage' onClick={switchPage}>
-        <i>{newAccount ? 'Already have an account?' : 'Need to make a new account?'}</i>
-      </button>
-      {errorBox}
+    <div>
+      <img id='goose' src='https://static.wikia.nocookie.net/adventuretimewithfinnandjake/images/5/54/Choose_Goose.png/'></img>
+      <div id='authentication'>
+        <i>{errorBox}</i>
+        <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}></input>
+        <input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} type="password"></input>
+        <button id='authrequest' onClick={authRequest}>
+          {newAccount ? 'Signup' : 'Login'}
+        </button>
+        <button id='switchpage' onClick={switchPage}>
+          <i>{newAccount ? 'Already have an account?' : 'Need to make a new account?'}</i>
+        </button>
+      </div>
     </div>
   )
 }

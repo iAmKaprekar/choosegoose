@@ -2,15 +2,32 @@ $white: #eeeeee;
 $lightgray: #cccccc;
 $darkgray: #333333;
 $black: #111111;
+$red: #993333;
+$lightred: #eeaaaa;
+
+@import url('https://fonts.googleapis.com/css?family=Fredoka');
+
+$font-main: 'Fredoka', sans-serif;
 
 body {
   background-color: $black;
 }
 
 #root {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#goose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: -1;
 }
 
 #authentication {
@@ -23,7 +40,10 @@ body {
   color: $black;
 
   input {
+    font-family: $font-main;
     margin: 12px;
+    padding: 6px;
+    padding-left: 12px;
     width: 420px;
     height: 40px;
     font-size: 36px;
@@ -33,18 +53,34 @@ body {
   }
 
   button {
+    font-family: $font-main;
     border-radius: 12px;
     background-color: $lightgray;
     color: $black;
   }
 
   #authrequest {
+    padding: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
     font-size: 24px;
     margin: 6px;
   }
 
   #switchpage {
     font-size: 16px;
-    margin: 12px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+  }
+
+  #error {
+    font-family: $font-main;
+    font-size: 20px;
+    color: $lightred;
+    padding: 6px;
+    margin-top: 12px;
   }
 }
