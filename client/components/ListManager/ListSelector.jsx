@@ -50,7 +50,7 @@ const ListSelector = () => {
         <h1>Your Lists</h1>
         <button>Create New List</button>
       </div>
-      {listElements}
+      {listElements[0] ? listElements : <p>You currently have no lists. Create a new list by clicking the button above!</p>}
     </div>
   )
 }
