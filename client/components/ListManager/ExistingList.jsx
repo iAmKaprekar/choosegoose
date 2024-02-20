@@ -22,7 +22,7 @@ const ExistingList = ({name, size, complete, steps}) => {
         <h3>{`Items: ${size}`}</h3>
         <h3>{`Status: ${complete ? 'Sorted' : progress(size, steps)}`}</h3>
       </div>
-      <button>View</button>
+      <button>View List</button>
     </div>
   )
 }

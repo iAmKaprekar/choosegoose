@@ -9,7 +9,7 @@ router.post('/signup',
   authController.handleDetails,
   authController.attemptSignup,
   authController.startSession,
-  (_, res) => res.sendStatus(200)
+  (_, res) => res.status(200).json({username: res.locals.username})
 );
 
 router.post('/login',
@@ -17,13 +17,13 @@ router.post('/login',
   authController.handleDetails,
   authController.attemptLogin,
   authController.startSession,
-  (_, res) => res.sendStatus(200)
+  (_, res) => res.status(200).json({username: res.locals.username})
 );
 
 router.get('/',
   (_req, _res, next) => routeLog(`Authorization request received.`, next),
   authController.authorize,
-  (_, res) => res.sendStatus(200)
+  (_, res) => res.status(200).json({username: res.locals.username})
 )
 
 router.get('/logout',

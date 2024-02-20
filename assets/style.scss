@@ -34,6 +34,37 @@ body {
   z-index: -1;
 }
 
+#navbar {
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $lightgray;
+  color: $black;
+  font-family: $font-main;
+  left: 0vw;
+  right: 100vw;
+  top: 0vh;
+  bottom: 10vh;
+  width: 100%;
+  max-width: 100%;
+  max-height: 60px;
+  min-height: 60px;
+
+  button {
+    color: $white;
+    background-color: $darkgray;
+    font-family: $font-main;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 12px;
+  }
+
+  h1 {
+    margin: 12px;
+  }
+}
+
 #authentication {
   display: flex;
   flex-direction: column;
@@ -98,12 +129,24 @@ body {
     flex-direction: horizontal;
     justify-content: space-between;
     width: 600px;
+    align-items: center;
   }
 
   #existingList {
     display: flex;
     flex-direction: horizontal;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  button {
+    color: $white;
+    background-color: $darkgray;
+    font-family: $font-main;
+    font-size: 24px;
+    border-radius: 6px;
+    margin: 12px;
+    height: 48px;
   }
 }
 

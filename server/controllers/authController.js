@@ -103,6 +103,7 @@ controller.startSession = async(req, res, next) => {
     datedLog(`Starting session for user ${username}...`)
     const token = jwt.sign({ username }, AUTH_KEY);
     res.cookie('jwt', token, {httpOnly: true});
+    res.locals.username = username;
     return next();
   } catch (err) {
     return next({
@@ -130,7 +131,7 @@ controller.authorize = async(req, res, next) => {
         message: {err: 'Invalid user token.'}
       })
     }
-    res.locals.user = user;
+    res.locals.username = user;
     return next();
   } catch (err) {
     return next({

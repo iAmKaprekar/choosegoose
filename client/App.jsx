@@ -5,39 +5,51 @@ import _style from '../assets/style.scss';
 import Authentication from './components/Authentication';
 import ListManager from './components/ListManager';
 import Loading from './components/Loading';
+import Navbar from './components/Navbar';
 import Sorting from './components/Sorting';
 
 const App = () => {
   const [page, setPage] = useState('loading');
   const [listId, setListId] = useState(null);
+  const [user, setUser] = useState(null);
 
   const authenticate = async() => {
     const response = await fetch('/api/auth');
-    setPage(response.ok ? 'listManager' : 'authentication')
+    if (!response.ok) {
+      setPage('authentication');
+    } else {
+      const data = await response.json();
+      setPage('listManager');
+      setUser(data.username);
+    }
   }
 
   useEffect(() => {
     authenticate();
   }, [])
 
+  let navbar = <></>;
   let renderedPage;
   switch (page) {
     case 'loading':
       renderedPage = <Loading/>;
       break;
     case 'authentication':
-      renderedPage = <Authentication login={() => setPage('listManager')}/>;
+      renderedPage = <Authentication login={() => setPage('listManager')} setUser = {setUser}/>;
       break;
     case 'listManager':
-      renderedPage = <ListManager listId={listId} setListId={setListId}/>;
+      renderedPage = <ListManager listId={listId} setListId={setListId}/>
+      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
     case 'sorting':
       renderedPage = <Sorting listId={listId} setListId={setListId}/>;
+      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
   }
 
   return (
     <div id='app'>
+      {navbar}
       {renderedPage}
     </div>
   );

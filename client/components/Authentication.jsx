@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // import Login from "./Authentication/Login";
 // import Signup from "./Authentication/Signup";
 
-const Authentication = ({ login }) => {
+const Authentication = ({ login, setUser }) => {
   const [newAccount, setNewAccount] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,12 @@ const Authentication = ({ login }) => {
         body: JSON.stringify({username: username, password: password})
       }
     );
-    response.ok ? login() : handleError(response);
+    if (!response.ok) handleError(response);
+    else {
+      const data = await response.json();
+      login();
+      setUser(data.username);
+    }
   }
 
   const switchPage = () => {

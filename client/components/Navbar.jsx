@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navbar = ({ logout }) => {
+const Navbar = ({ logout, user }) => {
 
   const logoutRequest = async() => {
     const response = await fetch('/api/auth/logout');
@@ -9,7 +9,7 @@ const Navbar = ({ logout }) => {
 
   return (
     <div id='navbar'>
-      <h1>Hello, user</h1>
+      <h1><i>{`Hello, ${user}!`}</i></h1>
       <button onClick={logoutRequest}>Logout</button>
     </div>
   )
