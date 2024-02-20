@@ -8,9 +8,24 @@ const ListSelector = () => {
   useEffect(() => {
     setLists(
       [
-        {name: 'Items in Binding of Isaac'},
-        {name: 'Adventure Time Episodes'},
-        {name: 'Best Songs of All Time'}
+        {
+          name: 'Items in Binding of Isaac',
+          size: 719,
+          complete: false,
+          steps: 2500,
+        },
+        {
+          name: 'Adventure Time Episodes',
+          size: 293,
+          complete: false,
+          steps: 2130,
+        },
+        {
+          name: 'Best Songs of All Time',
+          size: 133,
+          complete: true,
+          steps: 808,
+        }
       ]
     );
   }, []);
@@ -24,6 +39,7 @@ const ListSelector = () => {
         name={list.name}
         size={list.size}
         complete={list.complete}
+        steps={list.steps}
       />
     )
   }
