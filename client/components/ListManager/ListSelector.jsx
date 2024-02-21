@@ -1,38 +1,25 @@
 import React, {useEffect, useState} from "react";
 
 import ExistingList from "./ExistingList";
+import Loading from "../Loading";
 
 const ListSelector = () => {
-  const [lists, setLists] = useState([]);
+  const [lists, setLists] = useState([{loading: true}]);
+
+  const findLists = async() => {
+    const listResponse = await fetch('/api/list');
+    const listData = await listResponse.json()
+    listData.err ? console.log(listData.err) : setLists(listData.lists)
+  }
 
   useEffect(() => {
-    setLists(
-      [
-        {
-          name: 'Items in Binding of Isaac',
-          size: 719,
-          complete: false,
-          steps: 2500,
-        },
-        {
-          name: 'Adventure Time Episodes',
-          size: 293,
-          complete: false,
-          steps: 2130,
-        },
-        {
-          name: 'Best Songs of All Time',
-          size: 133,
-          complete: true,
-          steps: 808,
-        }
-      ]
-    );
+    findLists();
   }, []);
 
   const listElements = [];
 
-  for (const list of lists) {
+  for (let i = lists.length - 1; i >= 0; i--) {
+    const list = lists[i];
     listElements.push(
       <ExistingList
         key={list.name}
@@ -42,6 +29,10 @@ const ListSelector = () => {
         steps={list.steps}
       />
     )
+  }
+
+  if (lists[0]?.loading) {
+    listElements[0] = <Loading />;
   }
 
   return (

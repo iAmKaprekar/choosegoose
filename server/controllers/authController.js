@@ -131,7 +131,7 @@ controller.authorize = async(req, res, next) => {
         message: {err: 'Invalid user token.'}
       })
     }
-    datedLog(`Request sender successfully identified as user "${user}..."`)
+    datedLog(`Request sender successfully identified as user "${user}"...`)
     res.locals.username = user;
     return next();
   } catch (err) {

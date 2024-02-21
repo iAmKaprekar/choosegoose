@@ -70,14 +70,16 @@ controller.findLists = async(req, res, next) => {
     const { userId, username } = res.locals;
     datedLog(`Attemping to aquire all lists for user "${username}"...`);
     const listsQuery = `
-      SELECT (name, size, steps, complete)
+      SELECT name, size, steps, complete
       FROM Lists
       WHERE user_id=$1;
     `;
     const listsResponse = await db.query(listsQuery, [userId]);
-    console.log(listsResponse);
     const lists = listsResponse.rows;
-    console.log(lists);
+    for (const list of lists) {
+      list.complete = list.complete === '1';
+    }
+    res.locals.lists = lists;
     return next();
   } catch (err) {
     return next({

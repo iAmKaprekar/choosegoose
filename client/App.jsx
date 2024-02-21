@@ -14,14 +14,13 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   const authenticate = async() => {
-    const response = await fetch('/api/auth');
-    if (!response.ok) {
-      setPage('authentication');
-    } else {
-      const data = await response.json();
-      setPage('listManager');
-      setUser(data.username);
+    const authResponse = await fetch('/api/auth');
+    if (!authResponse.ok) {
+      return setPage('authentication');
     }
+    const data = await authResponse.json();
+    setPage('listManager');
+    setUser(data.username);
   }
 
   useEffect(() => {
