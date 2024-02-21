@@ -100,7 +100,7 @@ controller.attemptLogin = async(req, res, next) => {
 controller.startSession = async(req, res, next) => {
   try {
     const { username } = req.body;
-    datedLog(`Starting session for user ${username}...`)
+    datedLog(`Starting session for user "${username}"...`)
     const token = jwt.sign({ username }, AUTH_KEY);
     res.cookie('jwt', token, {httpOnly: true});
     res.locals.username = username;
@@ -131,12 +131,30 @@ controller.authorize = async(req, res, next) => {
         message: {err: 'Invalid user token.'}
       })
     }
+    datedLog(`Request sender successfully identified as user "${user}..."`)
     res.locals.username = user;
     return next();
   } catch (err) {
     return next({
       log: `Error caught in authController.authorize: ${err}`,
       message: {err: 'Unknown error occurred in authorization.'}
+    })
+  }
+}
+
+controller.getId = async(req, res, next) => {
+  try {
+    const { username } = res.locals;
+    datedLog(`Acquiring ID for user "${username}"...`);
+    const userIdQuery = `SELECT * FROM Users WHERE username=$1`
+    const userIdResponse = await db.query(userIdQuery, [username]);
+    const userId = userIdResponse.rows[0]?.user_id;
+    res.locals.userId = userId;
+    return next();
+  } catch (err) {
+    return next({
+      log: `Error caught in authController.getId: ${err}`,
+      message: {err: 'Unknown error occurred in finding user ID.'}
     })
   }
 }
