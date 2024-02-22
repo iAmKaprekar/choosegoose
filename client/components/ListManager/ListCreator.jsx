@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { createMergers } from '../../sorting';
+import { createMergers, compileData, processData, initializeData } from '../../sorting';
 
 import ListItem from "./ListItem";
 
-const ListCreator = ({ goToList, initializeData, processData }) => {
+const ListCreator = ({ goToList }) => {
 
   const [items, setItems] = useState([]);
   const [listName, setListName] = useState('');
@@ -14,14 +14,14 @@ const ListCreator = ({ goToList, initializeData, processData }) => {
     const initialData = initializeData(items);
     const initialState = processData(initialData);
     const readyState = createMergers(initialState);
-    console.log(readyState);
+    const readyData = compileData(readyState);
     const creationResponse = await fetch('/api/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         name: listName,
         size: items.length,
-        data: 'Test Data'
+        data: readyData,
       })
     })
     const data = await creationResponse.json();

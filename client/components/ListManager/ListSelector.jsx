@@ -40,7 +40,7 @@ const ListSelector = ({ goToList }) => {
   }
 
   if (lists[0]?.loading) {
-    listElements[0] = <Loading />;
+    listElements[0] = <Loading key={0}/>;
   }
 
   return (
