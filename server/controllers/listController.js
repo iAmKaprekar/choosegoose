@@ -54,7 +54,8 @@ controller.createList = async(req, res, next) => {
       name: name,
       size: size,
       steps: 0,
-      complete: false
+      complete: false,
+      id: listId
     };
     return next();
   } catch (err) {
@@ -70,7 +71,7 @@ controller.findLists = async(req, res, next) => {
     const { userId, username } = res.locals;
     datedLog(`Attemping to aquire all lists for user "${username}"...`);
     const listsQuery = `
-      SELECT name, size, steps, complete
+      SELECT name, size, steps, complete, list_id
       FROM Lists
       WHERE user_id=$1;
     `;

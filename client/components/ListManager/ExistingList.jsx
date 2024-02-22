@@ -16,8 +16,8 @@ const ExistingList = ({name, size, complete, steps}) => {
   }
 
   return (
-    <div id='existingList'>
-      <div id='listInfo'>
+    <div className='existingList'>
+      <div className='listInfo'>
         <h2>{name}</h2>
         <h3>{`Items: ${size}`}</h3>
         <h3>{`Status: ${complete ? 'Sorted!' : progress(size, steps)}`}</h3>

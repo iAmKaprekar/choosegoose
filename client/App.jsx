@@ -37,12 +37,12 @@ const App = () => {
       renderedPage = <Authentication login={() => setPage('listManager')} setUser = {setUser}/>;
       break;
     case 'listManager':
-      renderedPage = <ListManager listId={listId} setListId={setListId}/>
-      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
+      renderedPage = <ListManager listId={listId} setListId={setListId} goToSorting={() => setPage('sorting')} user={user}/>
+      navbar = <Navbar logout={() => setPage('authentication')}/>;
       break;
     case 'sorting':
-      renderedPage = <Sorting listId={listId} setListId={setListId}/>;
-      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
+      renderedPage = <Sorting listId={listId} setListId={setListId} goToListManager={() => setPage('listManager')} user={user}/>;
+      navbar = <Navbar logout={() => setPage('authentication')}/>;
       break;
   }
 

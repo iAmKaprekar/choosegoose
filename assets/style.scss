@@ -4,6 +4,8 @@ $darkgray: #333333;
 $black: #111111;
 $red: #993333;
 $lightred: #eeaaaa;
+$blue: rgb(113, 218, 255);
+$darkblue: rgb(0, 54, 72);
 
 @import url('https://fonts.googleapis.com/css?family=Fredoka');
 
@@ -39,8 +41,8 @@ body {
   position: absolute;
   justify-content: space-between;
   align-items: center;
-  background-color: $lightgray;
-  color: $black;
+  background-color: $darkgray;
+  color: $white;
   font-family: $font-main;
   left: 0vw;
   right: 100vw;
@@ -50,10 +52,11 @@ body {
   max-width: 100%;
   max-height: 60px;
   min-height: 60px;
+  box-shadow: $darkgray 0px 0px 40px 10px;
 
   button {
-    color: $white;
-    background-color: $darkgray;
+    color: $black;
+    background-color: $lightgray;
     font-family: $font-main;
     font-size: 24px;
     border-radius: 6px;
@@ -124,6 +127,18 @@ body {
   font-family: $font-main;
   color: $white;
 
+  #listSelector {
+    padding: 12px;
+    margin: 12px;
+    height: 600px;
+    overflow: auto;
+    border-radius: 12px;
+    border-style: solid;
+    border-color: $blue;
+    box-shadow: $darkblue 0px 0px 24px 12px;
+    background-color: $darkblue;
+  }
+
   #topBar {
     display: flex;
     flex-direction: horizontal;
@@ -132,15 +147,73 @@ body {
     align-items: center;
   }
 
-  #existingList {
+  #listCreator {
+    background-color: $darkblue;
     margin: 6px;
     padding: 6px;
     display: flex;
-    flex-direction: horizontal;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-color: $blue;
+    box-shadow: $darkblue 0px 0px 24px 12px;
+    border-width: 2px;
+    border-radius: 12px;
+
+    .option {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    #add {
+      font-size: 30px;
+    }
+
+    input {
+      padding: 3px;
+      height: 30px;
+      margin: 24px;
+      font-family: $font-main;
+      width: 300px;
+      font-size: 24px;
+      background-color: $white;
+      color: $black;
+      border-radius: 12px;
+    }
+
+    #itemList {
+      display: flex;
+      flex-direction: column;
+      justify-content: top;
+      align-items: center;
+      overflow: auto;
+      height: 300px;
+      max-height: 300px;
+
+      .listItem {
+        padding-right: 32px;
+        display: flex;
+        justify-content: space-between;
+        width: 480px;
+        max-width: 480px;
+        align-items: center;
+      }
+    }
+  }
+
+  .existingList {
+    margin: 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     border-style: solid;
-    border-color: $lightgray;
+    border-color: $blue;
+    background-color: $darkblue;
     border-width: 2px;
     border-radius: 12px;
   }
@@ -150,7 +223,7 @@ body {
     background-color: $darkgray;
     font-family: $font-main;
     font-size: 24px;
-    border-radius: 6px;
+    border-radius: 12px;
     margin: 12px;
     height: 48px;
   }
@@ -168,7 +241,7 @@ body {
   }
 
   p {
-    margin: 36px;
+    margin: 12px;
   }
 
 }
