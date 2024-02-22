@@ -38,11 +38,11 @@ const App = () => {
       break;
     case 'listManager':
       renderedPage = <ListManager listId={listId} setListId={setListId} goToSorting={() => setPage('sorting')} user={user}/>
-      navbar = <Navbar logout={() => setPage('authentication')}/>;
+      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
     case 'sorting':
       renderedPage = <Sorting listId={listId} setListId={setListId} goToListManager={() => setPage('listManager')} user={user}/>;
-      navbar = <Navbar logout={() => setPage('authentication')}/>;
+      navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;
   }
 

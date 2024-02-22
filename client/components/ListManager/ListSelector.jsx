@@ -3,13 +3,18 @@ import React, {useEffect, useState} from "react";
 import ExistingList from "./ExistingList";
 import Loading from "../Loading";
 
-const ListSelector = ({ goToSorting }) => {
+const ListSelector = ({ goToList }) => {
   const [lists, setLists] = useState([{loading: true}]);
 
   const findLists = async() => {
     const listResponse = await fetch('/api/list');
     const listData = await listResponse.json()
     listData.err ? console.log(listData.err) : setLists(listData.lists)
+  }
+
+  const openList = async(id) => {
+    const listResponse = await fetch(`/api/list/${id}`);
+    goToList();
   }
 
   useEffect(() => {
@@ -20,13 +25,16 @@ const ListSelector = ({ goToSorting }) => {
 
   for (let i = lists.length - 1; i >= 0; i--) {
     const list = lists[i];
+    const {id, name, size, complete, steps} = list;
     listElements.push(
       <ExistingList
         key={i}
-        name={list.name}
-        size={list.size}
-        complete={list.complete}
-        steps={list.steps}
+        name={name}
+        size={size}
+        complete={complete}
+        steps={steps}
+        id={id}
+        openList={openList}
       />
     )
   }

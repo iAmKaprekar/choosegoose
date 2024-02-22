@@ -1,6 +1,6 @@
 import React from "react";
 
-const ExistingList = ({name, size, complete, steps}) => {
+const ExistingList = ({ name, size, complete, steps, id, openList }) => {
 
   const progress = (size, steps) => {
     let remaining = size - 1;
@@ -22,7 +22,7 @@ const ExistingList = ({name, size, complete, steps}) => {
         <h3>{`Items: ${size}`}</h3>
         <h3>{`Status: ${complete ? 'Sorted!' : progress(size, steps)}`}</h3>
       </div>
-      <button>View List</button>
+      <button onClick={openList}>View List</button>
     </div>
   )
 }
