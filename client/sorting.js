@@ -139,7 +139,6 @@ const processData = (data) => {
 }
 
 const compileData = (state) => {
-  console.log(state);
   const { hold, mergers } = state;
   let data = '';
   if (hold[0]) {
@@ -196,7 +195,6 @@ const handleAnswer = (state, payload) => {
   if (direction === 'Bottom') {
     arrayRef = choice === 'left' ? merger.leftArray: merger.rightArray;
     indexRef = `${choice}${direction}`;
-    console.log(merger.mergedArray[merger.leftBottom + merger.rightBottom])
     merger.mergedArray[merger.leftBottom + merger.rightBottom] = arrayRef[merger[indexRef]++];
   } else {
     arrayRef = choice === 'right' ? merger.leftArray: merger.rightArray;
