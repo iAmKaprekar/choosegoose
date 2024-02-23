@@ -11,7 +11,9 @@ const ListSelector = ({ goToSorting }) => {
   const findLists = async() => {
     const listResponse = await fetch('/api/list');
     const listData = await listResponse.json()
-    listData.err ? console.log(listData.err) : setLists(listData.lists)
+    if (listData.err) console.log(listData.err);
+    const sortedData = listData.lists.sort((a, b) => a.list_id - b.list_id)
+    setLists(sortedData);
   }
 
   const openList = async(id) => {

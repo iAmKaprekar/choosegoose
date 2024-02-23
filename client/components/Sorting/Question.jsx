@@ -7,7 +7,27 @@ import Loading from '../Loading';
 const Question = ({ sortingState, sendAnswer, saving }) => {
 
   const [question, setQuestion] = useState(null);
+  const [choices, setChoices] = useState(<Loading />);
   console.log(question);
+
+  const generateButtons = () => {
+    if (!question) setChoices(<Loading />);
+    else if (Math.random() > 0.5) {
+      setChoices(
+        <div id='choices'>
+          <button onClick={() => prepareAnswer('left')}>{question.leftItem}</button>
+          <button onClick={() => prepareAnswer('right')}>{question.rightItem}</button>
+        </div>
+      );
+    } else {
+      setChoices(
+        <div id='choices'>
+          <button onClick={() => prepareAnswer('right')}>{question.rightItem}</button>
+          <button onClick={() => prepareAnswer('left')}>{question.leftItem}</button>
+        </div>
+      );
+    }
+  }
 
   const prepareAnswer = (choice) => {
     const newQuestion = sendAnswer({
@@ -19,38 +39,17 @@ const Question = ({ sortingState, sendAnswer, saving }) => {
   }
 
   useEffect(() => {
-    console.log(sortingState);
     const newQuestion = generateQuestion(sortingState);
     setQuestion(newQuestion);
   }, []);
 
-  if (!question) {
-    return <Loading />;
-  }
-
-  let choices;
-
-  if (Math.random() > 0.5) {
-    choices = (
-      <div>
-        <button onClick={() => prepareAnswer('left')}>{question.leftItem}</button>
-        <button onClick={() => prepareAnswer('right')}>{question.rightItem}</button>
-      </div>
-    );
-  } else {
-    choices = (
-      <div>
-        <button onClick={() => prepareAnswer('right')}>{question.rightItem}</button>
-        <button onClick={() => prepareAnswer('left')}>{question.leftItem}</button>
-      </div>
-    );
-  }
+  useEffect(generateButtons, [question]);
 
   return (
     <div id='question'>
-      <h1>Question</h1>
+      <h2>Which item ranks higher?</h2>
       {choices}
-      <h2>{saving ? 'Saving progress...' : 'Saved!'}</h2>
+      <i><h4>{saving ? 'Saving progress...' : 'Saved!'}</h4></i>
     </div>
   )
 }

@@ -25,7 +25,7 @@ const initializeData = (items) => {
   let data = '';
   for (const item of randomizedItems) {
     if (data) data += '|';
-    data += item;
+    data += scanItem(item);
   }
   return data;
 }
@@ -35,6 +35,7 @@ const processData = (data) => {
     hold: [],
     mergers: [],
   };
+  let escape = false;
   let direction = 'bottom';
   let target = 0;
   let mergeCount = 0;
@@ -52,9 +53,14 @@ const processData = (data) => {
     rightTop: -1,
   };
   for (const char of data) {
+    if (char === '\\' && !escape) {
+      escape = true;
+      continue;
+    }
     switch (parseState) {
       case 'hold':
-        if (char === '~' || char === '|' || char === '`') {
+        console.log(char)
+        if ((char === '~' || char === '|' || char === '`') && !escape) {
           if (item) array.push(item);
           item = '';
           if (char === '~' || char === '|') {
@@ -69,7 +75,7 @@ const processData = (data) => {
         item += char;
         break;
       case 'left':
-        if (char === '~' || char === '`') {
+        if (char === '~' || char === '`' && !escape) {
           merger.leftArray.push(item);
           item = '';
           merger.leftTop += 1;
@@ -81,7 +87,7 @@ const processData = (data) => {
         item += char;
         break;
       case 'right':
-        if (char === '~' || char === '`') {
+        if (char === '~' || char === '`' && !escape) {
           merger.rightArray.push(item);
           item = '';
           merger.rightTop += 1;
@@ -133,9 +139,21 @@ const processData = (data) => {
         mergeCount++;
         break;
     }
+    if (escape) escape = false;
   }
   if (item) state.hold.push([item]);
   return state;
+}
+
+const scanItem = (item) => {
+  let scannedItem = ''
+  for (const char of item) {
+    if (char === '~' || char === '`' || char === '|' || char === '\\') {
+      scannedItem += '\\';
+    }
+    scannedItem += char;
+  }
+  return scannedItem
 }
 
 const compileData = (state) => {
@@ -144,7 +162,7 @@ const compileData = (state) => {
   if (hold[0]) {
     for (const item of hold[0]) {
       if (data) data += '`';
-      data += item;
+      data += scanItem(item);
     }
   }
   data += '~';
@@ -159,7 +177,7 @@ const compileData = (state) => {
           data[data.length - 1] !== '>'
         ) data += '`';
         cache[item] = array;
-        data += item;
+        data += scanItem(item);
       }
       data += '~';
     }

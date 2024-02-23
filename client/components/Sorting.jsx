@@ -9,6 +9,12 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
 
   const [saving, setSaving] = useState(false);
 
+  const goBack = () => {
+    if (!saving) {
+      goToListManager();
+    }
+  }
+
   const saveDataRequest = async(data, steps, complete) => {
     setSaving(true);
     const saveDataResponse = await fetch(
@@ -48,7 +54,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
 
   const renderedPage = complete ? 
     <Results
-    
+      sortedList={sortingState.hold[0]}
     /> : 
     <Question
       sortingState={sortingState}
@@ -58,7 +64,10 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
 
   return (
     <div id='sorting'>
-      <h1>Sorting</h1>
+      <div id='topBar'>
+        <h1>{listName}</h1>
+        <button onClick={goBack}>Go Back</button>
+      </div>
       {renderedPage}
     </div>
   )

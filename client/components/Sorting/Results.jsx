@@ -1,9 +1,17 @@
 import React from "react";
 
-const Results = () => {
+const Results = ({ sortedList }) => {
+
+  const resultElements = [];
+  for (const item of sortedList) {
+    resultElements.push(<h2 key={item}>{item}</h2>)
+  }
+
   return (
     <div id='results'>
-      <h1>Results</h1>
+      <div id='items'>
+        {resultElements}
+      </div>
     </div>
   )
 }
