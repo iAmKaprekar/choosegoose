@@ -9,9 +9,9 @@ const createMergers = (state) => {
       leftBottom: 0,
       rightBottom: 0,
     };
-    newMerger.leftTop = newMerger.leftArray.length;
-    newMerger.rightTop = newMerger.rightArray.length;
-    for (let i = 0; i < newMerger.leftTop + newMerger.rightTop; i++) {
+    newMerger.leftTop = newMerger.leftArray.length - 1;
+    newMerger.rightTop = newMerger.rightArray.length - 1;
+    for (let i = 0; i < newMerger.leftTop + newMerger.rightTop + 2; i++) {
       newMerger.mergedArray.push(null);
     }
     mergers.push(newMerger);
@@ -106,7 +106,7 @@ const processData = (data) => {
                 merger.mergedArray[index] = merger.rightArray[direction === 'bottom' ? merger.rightBottom++ : merger.rightTop--]
                 break;
               case '=':
-                merger.mergedArray[index] = undefined;
+                merger.mergedArray[index] = null;
                 if (direction === 'bottom') {
                   direction = 'top';
                   index = mergeCount + 1;
@@ -134,10 +134,12 @@ const processData = (data) => {
         break;
     }
   }
+  if (item) state.hold.push([item]);
   return state;
 }
 
 const compileData = (state) => {
+  console.log(state);
   const { hold, mergers } = state;
   let data = '';
   if (hold[0]) {
@@ -168,27 +170,5 @@ const compileData = (state) => {
   }
   return data;
 }
-
-// const state = {
-//   hold: [['pyro', 'cryo']],
-//   mergers: [
-//     {
-//       leftArray: ['dendro', 'anemo'],
-//       rightArray: ['geo'],
-//       mergedArray: ['dendro', undefined, undefined],
-//     },
-//     {
-//       leftArray: ['hydro'],
-//       rightArray: ['electro'],
-//       mergedArray: [undefined, 'electro'],
-//     },
-//   ]
-// }
-
-// console.log(compileData(state));
-
-// const data = 'pyro`cryo~dendro`anemo~geo~<==hydro~electro~=>';
-// console.log(compileData(processData(data)))
-// console.log(compileData(processData(data)) === data);
 
 export { createMergers, compileData, processData, initializeData };
