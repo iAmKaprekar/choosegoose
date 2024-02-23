@@ -6,6 +6,19 @@ const db = require('../models/gooseModel');
 
 controller.validateList = async(req, res, next) => {
   try {
+    const { listId } = req.params;
+    const { userId, username } = res.locals;
+    datedLog(`Validating user "${username}" has ownership of list with ID of ${listId}...`);
+    const idQuery = `SELECT user_id FROM Lists WHERE list_id=$1`;
+    const idResponse = await db.query(idQuery, [listId]);
+    if (idResponse.rows[0].user_id !== userId) {
+      return next({
+        status: 400,
+        log: `Aborted validating list -- "${username}" does not have access rights to list with ID ${listId}.`,
+        message: {err: 'Client does not have access to that list.'}
+      });
+    }
+    res.locals.listId = listId;
     return next();
   } catch (err) {
     return next({
@@ -92,6 +105,11 @@ controller.findLists = async(req, res, next) => {
 
 controller.loadList = async(req, res, next) => {
   try {
+    const { username, listId } = res.locals;
+    datedLog(`Loading list with ID ${listId} for user "${username}"...`);
+    const listQuery = `SELECT name, steps, complete, data FROM Lists WHERE list_id=$1`;
+    const listResponse = await db.query(listQuery, [listId]);
+    res.locals.list = listResponse.rows[0];
     return next();
   } catch (err) {
     return next({
@@ -103,11 +121,12 @@ controller.loadList = async(req, res, next) => {
 
 controller.saveList = async(req, res, next) => {
   try {
-    const { name, data } = req.body;
+    const { name, data, complete, steps } = req.body;
     const { username, listId } = res.locals;
     datedLog(`Attemping to save data in list "${name}" for "${username}"...`);
-    const saveQuery = `UPDATE Lists SET data = $1 WHERE list_id=$2`;
-    await db.query(saveQuery, [data, listId]);
+    const saveQuery = `UPDATE Lists SET data = $1, complete=$2, steps=$3 WHERE list_id=$4`;
+    await db.query(saveQuery, [data, complete ? 1 : 0, steps || 0, listId]);
+    res.locals.name = name;
     return next();
   } catch (err) {
     return next({

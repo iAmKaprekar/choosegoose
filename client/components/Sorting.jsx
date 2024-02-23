@@ -9,25 +9,24 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
 
   const [saving, setSaving] = useState(false);
 
-  const saveDataRequest = async(data) => {
+  const saveDataRequest = async(data, steps, complete) => {
     setSaving(true);
-    // const saveDataResponse = await fetch(
-    //   `/api/list/${listId}`,
-    //   {
-    //     method: 'PATCH',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: JSON.stringify({
-    //       complete: complete,
-    //       steps: steps,
-    //       data: data
-    //     })
-    //   }
-    // )
-    // if (saveDataResponse.ok) {
-    //   setSaving(false);
-    // }
-    console.log('Saved or something')
-    setSaving(false);
+    const saveDataResponse = await fetch(
+      `/api/list/${listId}`,
+      {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          complete: complete,
+          steps: steps,
+          data: data,
+          name: listName,
+        })
+      }
+    )
+    if (saveDataResponse.ok) {
+      setSaving(false);
+    }
   }
 
   const sendAnswer = (payload) => {
@@ -35,10 +34,11 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     const newState = createMergers(answeredState);
     setSortingState(newState);
     console.log(newState);
-    setSteps(steps + 1);
+    const newSteps = steps + 1;
+    setSteps(newSteps);
     const isComplete = determineCompletion(newState);
     const data = compileData(newState);
-    saveDataRequest(data);
+    saveDataRequest(data, newSteps, isComplete);
     if (isComplete) {
       setComplete(true);
     } else {

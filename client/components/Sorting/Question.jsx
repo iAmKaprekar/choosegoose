@@ -19,6 +19,7 @@ const Question = ({ sortingState, sendAnswer, saving }) => {
   }
 
   useEffect(() => {
+    console.log(sortingState);
     const newQuestion = generateQuestion(sortingState);
     setQuestion(newQuestion);
   }, []);

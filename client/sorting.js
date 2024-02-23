@@ -55,10 +55,10 @@ const processData = (data) => {
     switch (parseState) {
       case 'hold':
         if (char === '~' || char === '|' || char === '`') {
-          array.push(item);
+          if (item) array.push(item);
           item = '';
           if (char === '~' || char === '|') {
-            state.hold.push(array);
+            if (array[0]) state.hold.push(array);
             array = [];
             if (char === '~') {
               parseState = 'left';

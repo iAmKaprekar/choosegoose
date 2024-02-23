@@ -31,7 +31,7 @@ router.get('/:listId',
   listController.validateList,
   listController.loadList,
   (_, res, next) => routeLog(`Successfully loaded list "${res.locals.list.name}" for user "${res.locals.username}"!`, next),
-  (_, res) => res.status(200).json({data: res.locals.data})
+  (_, res) => res.status(200).json({list: res.locals.list})
 )
 
 router.patch('/:listId',
@@ -40,7 +40,7 @@ router.patch('/:listId',
   authController.getId,
   listController.validateList,
   listController.saveList,
-  (_, res, next) => routeLog(`Successfully saved list "${res.locals.list.name}" for user "${res.locals.username}"!`, next),
+  (_, res, next) => routeLog(`Successfully saved list "${res.locals.name}" for user "${res.locals.username}"!`, next),
   (_, res) => res.sendStatus(200)
 )
 
