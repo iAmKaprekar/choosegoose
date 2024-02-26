@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 
-const ExistingList = ({ name, size, complete, steps, id, openList }) => {
-
+const ExistingList = ({ name, size, complete, steps, id, openList, promptDeletion }) => {
+  
   const progress = (size, steps) => {
     let remaining = size - 1;
     let power = 0;
@@ -22,7 +22,10 @@ const ExistingList = ({ name, size, complete, steps, id, openList }) => {
         <h3>{`Items: ${size}`}</h3>
         <h3>{`Status: ${complete ? 'Sorted!' : progress(size, steps)}`}</h3>
       </div>
-      <button onClick={() => openList(id)}>View List</button>
+      <div className='listSelectionButtons'>
+        <button onClick={() => openList(id)}>View List</button>
+        <button onClick={promptDeletion} className="deleteButton">Delete</button>
+      </div>
     </div>
   )
 }

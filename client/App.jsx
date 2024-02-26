@@ -51,8 +51,6 @@ const App = () => {
       break;
     case 'listManager':
       renderedPage = <ListManager
-        listId={listId}
-        setListId={setListId}
         goToSorting={goToSorting}
       />
       navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;

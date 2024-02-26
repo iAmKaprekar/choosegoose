@@ -9,6 +9,10 @@ const Authentication = ({ login, setUser }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const checkKey = (e) => {
+    if (e.key === 'Enter') authRequest();
+  }
+
   const handleError = async(response) => {
     const errorBody = await response.json();
     setError(errorBody.err);
@@ -42,8 +46,8 @@ const Authentication = ({ login, setUser }) => {
       <img id='goose' src='https://static.wikia.nocookie.net/adventuretimewithfinnandjake/images/5/54/Choose_Goose.png/'></img>
       <div id='authentication'>
         <i>{errorBox}</i>
-        <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}></input>
-        <input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} type="password"></input>
+        <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={checkKey}></input>
+        <input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={checkKey} type="password"></input>
         <button id='authRequest' onClick={authRequest}>
           {newAccount ? 'Signup' : 'Login'}
         </button>

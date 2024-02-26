@@ -216,6 +216,17 @@ body {
     background-color: $darkblue;
     border-width: 2px;
     border-radius: 12px;
+
+    .listSelectionButtons {
+      display: flex;
+      flex-direction: column;
+
+      .deleteButton {
+        margin-top: 0px;
+        background-color: $red;
+        color: $lightred;
+      }
+    }
   }
 
   button {

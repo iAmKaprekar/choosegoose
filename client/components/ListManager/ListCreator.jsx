@@ -4,11 +4,7 @@ import { createMergers, compileData, processData, initializeData } from '../../s
 
 import ListItem from "./ListItem";
 
-const ListCreator = ({ goToSorting }) => {
-
-  const [items, setItems] = useState([]);
-  const [listName, setListName] = useState('');
-  const [itemName, setItemName] = useState('');
+const ListCreator = ({ goToSorting, items, setItems, listName, setListName, itemName, setItemName }) => {
 
   const createList = async() => {
     const initialData = initializeData(items);
