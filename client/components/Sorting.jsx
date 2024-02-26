@@ -11,6 +11,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
 
   const goBack = () => {
     if (!saving) {
+      setListId(null);
       goToListManager();
     }
   }
