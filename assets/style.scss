@@ -376,6 +376,25 @@ body {
     }
   }
 
+  #progressBar {
+    margin: 12px;
+    padding: 12px;
+    height: 24px;
+    width: 524px;
+    border-style: solid;
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: $blue;
+    box-shadow: $darkblue 0px 0px 24px 12px;
+    background-color: $darkblue;
+
+    #innerBar {
+      height: 24px;
+      background-color: $blue;
+      border-radius: 6px;
+    }
+  }
+
   h1 {
     margin: 12px;
   }

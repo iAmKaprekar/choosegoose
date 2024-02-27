@@ -13,6 +13,7 @@ const App = () => {
   const [listId, setListId] = useState(null);
   const [listName, setListName] = useState(null);
   const [user, setUser] = useState(null);
+  const [size, setSize] = useState(null);
   const [steps, setSteps] = useState(null);
   const [complete, setComplete] = useState(null);
   const [sortingState, setSortingState] = useState(null);
@@ -27,12 +28,13 @@ const App = () => {
     setUser(data.username);
   }
 
-  const goToSorting = ({steps, complete, state, name, id}) => {
+  const goToSorting = ({steps, complete, state, name, id, size}) => {
     setSteps(steps);
     setComplete(complete);
     setSortingState(state);
     setListName(name);
     setListId(id);
+    setSize(size);
     setPage('sorting');
   }
 
@@ -67,6 +69,7 @@ const App = () => {
         setComplete={setComplete}
         setSteps={setSteps}
         setSortingState={setSortingState}
+        size={size}
       />;
       navbar = <Navbar logout={() => setPage('authentication')} user={user}/>;
       break;

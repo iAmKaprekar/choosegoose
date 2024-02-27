@@ -5,9 +5,9 @@ import { processData } from "../../sorting";
 import ExistingList from "./ExistingList";
 import Loading from "../Loading";
 
-const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId }) => {
+const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId, setSize }) => {
 
-  const openList = async(id) => {
+  const openList = async(id, size) => {
     const listResponse = await fetch(`/api/list/${id}`);
     const data = await listResponse.json();
     const loadedState = processData(data.list.data);
@@ -17,6 +17,7 @@ const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId }
       state: loadedState,
       steps: data.list.steps,
       complete: data.list.complete === '1',
+      size: size
     });
   }
 

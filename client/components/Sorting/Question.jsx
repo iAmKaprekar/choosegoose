@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { generateQuestion } from "../../sorting";
+import { generateQuestion } from '../../sorting';
 
 import Loading from '../Loading';
 
@@ -8,7 +8,6 @@ const Question = ({ sortingState, sendAnswer, saving }) => {
 
   const [question, setQuestion] = useState(null);
   const [choices, setChoices] = useState(<Loading />);
-  console.log(question);
 
   const generateButtons = () => {
     if (!question) setChoices(<Loading />);

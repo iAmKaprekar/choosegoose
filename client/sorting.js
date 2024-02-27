@@ -59,7 +59,6 @@ const processData = (data) => {
     }
     switch (parseState) {
       case 'hold':
-        console.log(char)
         if ((char === '~' || char === '|' || char === '`') && !escape) {
           if (item) array.push(item);
           item = '';
@@ -236,6 +235,19 @@ const determineCompletion = (state) => {
   return !mergers.length && !hold[1];
 }
 
+const progressPercentage = (size, steps) => {
+  let remaining = size - 1;
+  let power = 0;
+  let result = 0;
+  while (remaining > 0) {
+    result += (power + 1) * Math.min(2 ** power, remaining);
+    remaining -= 2 ** power;
+    power++;
+  }
+  let percentage = Math.floor((steps / result) * 100);
+  return Math.min(percentage, 99);
+}
+
 export { 
   compileData,
   createMergers,
@@ -244,4 +256,5 @@ export {
   handleAnswer,
   initializeData,
   processData,
+  progressPercentage,
 };

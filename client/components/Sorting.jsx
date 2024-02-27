@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-import {compileData, createMergers, determineCompletion, generateQuestion, handleAnswer} from '../sorting';
+import {compileData, createMergers, determineCompletion, generateQuestion, handleAnswer, progressPercentage} from '../sorting';
 
 import Question from './Sorting/Question';
 import Results from './Sorting/Results';
+import ProgressBar from './Sorting/ProgressBar';
 
-const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, steps, setSteps, sortingState, setSortingState, listName }) => {
+const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, steps, setSteps, sortingState, setSortingState, listName, size }) => {
 
   const [saving, setSaving] = useState(false);
 
@@ -40,7 +41,6 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     const answeredState = handleAnswer(sortingState, payload);
     const newState = createMergers(answeredState);
     setSortingState(newState);
-    console.log(newState);
     const newSteps = steps + 1;
     setSteps(newSteps);
     const isComplete = determineCompletion(newState);
@@ -62,6 +62,12 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
       sendAnswer={sendAnswer}
       saving={saving}
     />;
+  
+  const progressBar = !complete ?
+    <ProgressBar
+      percentage={progressPercentage(size, steps)}
+    /> :
+    <></>;
 
   return (
     <div id='sorting'>
@@ -70,6 +76,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
         <button onClick={goBack}>Go Back</button>
       </div>
       {renderedPage}
+      {progressBar}
     </div>
   )
 }

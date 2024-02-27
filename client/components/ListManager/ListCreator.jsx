@@ -24,13 +24,13 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
     if (data.err) {
       return console.log(data.err);
     }
-    console.log(data);
     goToSorting({
       id: data.list.id,
       name: data.list.name,
       state: readyState,
       steps: 0,
       complete: false,
+      size: items.length,
     });
   }
 
