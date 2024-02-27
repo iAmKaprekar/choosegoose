@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
 
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../build')))
   app.get('/', (_, res) => {
     res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
   })

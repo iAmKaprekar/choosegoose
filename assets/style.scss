@@ -198,6 +198,10 @@ body {
     border-width: 2px;
     border-radius: 12px;
 
+    #error {
+      color: $lightred;
+    }
+
     .option {
       display: flex;
       flex-direction: row;
@@ -227,7 +231,7 @@ body {
       justify-content: top;
       align-items: center;
       overflow: auto;
-      height: 30vh;
+      height: 25vh;
       max-height: 300px;
 
       .listItem {

@@ -22,7 +22,7 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
     })
     const data = await creationResponse.json();
     if (data.err) {
-      return console.log(data.err);
+      return setError(data.err);
     }
     goToSorting({
       id: data.list.id,
@@ -59,6 +59,11 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
     listItems.push(<ListItem removeSelf={() => removeItem(item)} name={item} key={i}/>)
   }
 
+  let errorBox = <></>;
+  if (error) {
+    errorBox = <i><h4 id='error'>{error}</h4></i>;
+  }
+
   return (
     <div id='listCreator'>
       <div className='option'>
@@ -74,6 +79,7 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
         {listItems}
       </div>
       <button onClick={createList}>Begin Sorting</button>
+      {errorBox}
     </div>
   )
 }
