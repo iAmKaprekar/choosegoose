@@ -136,4 +136,21 @@ controller.saveList = async(req, res, next) => {
   }
 }
 
+controller.deleteList = async(req, res, next) => {
+  try {
+    const { username, listId } = res.locals;
+    datedLog(`Attemping to delete list with ID ${listId} for "${username}"...`);
+    const deleteQuery = `DELETE FROM Lists WHERE list_id=$1`;
+    await db.query(deleteQuery, [listId]);
+    return next();
+  } catch (err) {
+    return next(
+      {
+        log: `Error caught in listController.deleteList: ${err}`,
+        message: {err: 'Unknown error occurred in deleting list.'}
+      }
+    );
+  }
+}
+
 module.exports = controller;

@@ -5,18 +5,9 @@ import { processData } from "../../sorting";
 import ExistingList from "./ExistingList";
 import Loading from "../Loading";
 
-const ListSelector = ({ goToSorting }) => {
-  const [lists, setLists] = useState([{loading: true}]);
+const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId, setSize }) => {
 
-  const findLists = async() => {
-    const listResponse = await fetch('/api/list');
-    const listData = await listResponse.json()
-    if (listData.err) console.log(listData.err);
-    const sortedData = listData.lists.sort((a, b) => a.list_id - b.list_id)
-    setLists(sortedData);
-  }
-
-  const openList = async(id) => {
+  const openList = async(id, size) => {
     const listResponse = await fetch(`/api/list/${id}`);
     const data = await listResponse.json();
     const loadedState = processData(data.list.data);
@@ -26,12 +17,9 @@ const ListSelector = ({ goToSorting }) => {
       state: loadedState,
       steps: data.list.steps,
       complete: data.list.complete === '1',
+      size: size
     });
   }
-
-  useEffect(() => {
-    findLists();
-  }, []);
 
   const listElements = [];
 
@@ -47,6 +35,7 @@ const ListSelector = ({ goToSorting }) => {
         steps={steps}
         id={list_id}
         openList={openList}
+        promptDeletion={() => (setListToDelete(name), setListToDeleteId(list_id))}
       />
     )
   }

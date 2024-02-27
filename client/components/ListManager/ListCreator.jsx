@@ -4,12 +4,7 @@ import { createMergers, compileData, processData, initializeData } from '../../s
 
 import ListItem from "./ListItem";
 
-const ListCreator = ({ goToSorting }) => {
-
-  const [items, setItems] = useState([]);
-  const [listName, setListName] = useState('');
-  const [itemName, setItemName] = useState('');
-  const [error, setError] = useState(null);
+const ListCreator = ({ goToSorting, items, setItems, listName, setListName, itemName, setItemName }) => {
 
   const createList = async() => {
     const initialData = initializeData(items);
@@ -29,13 +24,13 @@ const ListCreator = ({ goToSorting }) => {
     if (data.err) {
       return setError(data.err);
     }
-    console.log(data);
     goToSorting({
       id: data.list.id,
       name: data.list.name,
       state: readyState,
       steps: 0,
       complete: false,
+      size: items.length,
     });
   }
 

@@ -123,6 +123,43 @@ body {
   }
 }
 
+#deletionConfirmation {
+  font-family: $font-main;
+  text-align: center;
+  color: $white;
+  background-color: $darkblue;
+  margin: 6px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-color: $blue;
+  box-shadow: $darkblue 0px 0px 24px 12px;
+  border-width: 2px;
+  border-radius: 12px;
+  width: 480px;
+
+  button {
+    font-family: $font-main;
+    font-size: 24px;
+    border-radius: 12px;
+    margin: 12px;
+    height: 48px;
+  }
+
+  #deleteButton {
+    background-color: $red;
+    color: $lightred;
+  }
+
+  #cancelButton {
+    background-color: $darkgray;
+    color: $white;
+  }
+}
+
 #listManager {
   font-family: $font-main;
   color: $white;
@@ -220,6 +257,17 @@ body {
     background-color: $darkblue;
     border-width: 2px;
     border-radius: 12px;
+
+    .listSelectionButtons {
+      display: flex;
+      flex-direction: column;
+
+      .deleteButton {
+        margin-top: 0px;
+        background-color: $red;
+        color: $lightred;
+      }
+    }
   }
 
   button {
@@ -329,6 +377,25 @@ body {
       overflow: auto;
       text-align: center;
       width: 530px;
+    }
+  }
+
+  #progressBar {
+    margin: 12px;
+    padding: 12px;
+    height: 24px;
+    width: 524px;
+    border-style: solid;
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: $blue;
+    box-shadow: $darkblue 0px 0px 24px 12px;
+    background-color: $darkblue;
+
+    #innerBar {
+      height: 24px;
+      background-color: $blue;
+      border-radius: 6px;
     }
   }
 
