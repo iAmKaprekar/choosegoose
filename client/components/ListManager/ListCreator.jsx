@@ -59,11 +59,6 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
     listItems.push(<ListItem removeSelf={() => removeItem(item)} name={item} key={i}/>)
   }
 
-  let errorBox = <></>;
-  if (error) {
-    errorBox = <i><h4 id='error'>{error}</h4></i>;
-  }
-
   return (
     <div id='listCreator'>
       <div className='option'>
