@@ -5,7 +5,7 @@ import { processData } from "../../sorting";
 import ExistingList from "./ExistingList";
 import Loading from "../Loading";
 
-const ListSelector = ({ goToSorting, lists, setListToDelete }) => {
+const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId }) => {
 
   const openList = async(id) => {
     const listResponse = await fetch(`/api/list/${id}`);
@@ -34,7 +34,7 @@ const ListSelector = ({ goToSorting, lists, setListToDelete }) => {
         steps={steps}
         id={list_id}
         openList={openList}
-        promptDeletion={() => setListToDelete(name)}
+        promptDeletion={() => (setListToDelete(name), setListToDeleteId(list_id))}
       />
     )
   }

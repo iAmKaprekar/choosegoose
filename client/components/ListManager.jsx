@@ -8,6 +8,7 @@ const ListManager = ({ goToSorting }) => {
   const [lists, setLists] = useState([{loading: true}]);
   const [newList, setNewList] = useState(false);
   const [listToDelete, setListToDelete] = useState('');
+  const [listToDeleteId, setListToDeleteId] = useState(null);
   const [items, setItems] = useState([]);
   const [listName, setListName] = useState('');
   const [itemName, setItemName] = useState('');
@@ -15,9 +16,26 @@ const ListManager = ({ goToSorting }) => {
   const findLists = async() => {
     const listResponse = await fetch('/api/list');
     const listData = await listResponse.json()
-    if (listData.err) console.log(listData.err);
+    if (listData.err) return console.log(listData.err);
     const sortedData = listData.lists.sort((a, b) => a.list_id - b.list_id)
     setLists(sortedData);
+  }
+
+  const deleteList = async(listId, listToDelete) => {
+    const deleteResponse = await fetch(`/api/list/${listId}`,
+      {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name: listToDelete})
+      }
+    )
+    if (!deleteResponse.ok) {
+      const deleteData = await deleteResponse.json();
+      console.log(deleteData.err);
+    }
+    setListToDelete('');
+    setListToDeleteId(null);
+    findLists();
   }
 
   useEffect(() => {
@@ -27,7 +45,8 @@ const ListManager = ({ goToSorting }) => {
   if (listToDelete) {
     return <DeletionConfirmation
       listToDelete={listToDelete}
-      cancelDeletion={() => setListToDelete('')}
+      cancelDeletion={() => (setListToDelete(''), setListToDeleteId(null))}
+      deleteList={() => deleteList(listToDeleteId, listToDelete)}
     />
   }
 
@@ -46,6 +65,7 @@ const ListManager = ({ goToSorting }) => {
       setLists={setLists}
       goToSorting={goToSorting}
       setListToDelete={setListToDelete}
+      setListToDeleteId={setListToDeleteId}
     />;
 
   const topText = newList ? 'Your New List' : 'Your Lists';

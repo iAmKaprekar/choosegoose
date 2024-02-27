@@ -44,4 +44,14 @@ router.patch('/:listId',
   (_, res) => res.sendStatus(200)
 )
 
+router.delete('/:listId',
+  (_, res, next) => routeLog(`List deletion request received...`, next),
+  authController.authorize,
+  authController.getId,
+  listController.validateList,
+  listController.deleteList,
+  (_, res, next) => routeLog(`Successfully deleted list with ID ${res.locals.listId} for user "${res.locals.username}"!`, next),
+  (_, res) => res.sendStatus(200)
+)
+
 module.exports = router;
