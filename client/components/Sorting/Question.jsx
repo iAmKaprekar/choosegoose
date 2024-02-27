@@ -29,11 +29,14 @@ const Question = ({ sortingState, sendAnswer, saving }) => {
   }
 
   const prepareAnswer = (choice) => {
+    const oldChoices = {};
+    oldChoices[question.leftItem] = true;
+    oldChoices[question.rightItem] = true;
     const newQuestion = sendAnswer({
       choice: choice,
       mergerIndex: question.mergerIndex,
       direction: question.direction,
-    })
+    }, oldChoices)
     if (newQuestion) setQuestion(newQuestion);
   }
 

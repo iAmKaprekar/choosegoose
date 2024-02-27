@@ -37,7 +37,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     }
   }
 
-  const sendAnswer = (payload) => {
+  const sendAnswer = (payload, oldChoices) => {
     const answeredState = handleAnswer(sortingState, payload);
     const newState = createMergers(answeredState);
     setSortingState(newState);
@@ -49,6 +49,13 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     if (isComplete) {
       setComplete(true);
     } else {
+      for (let i = 0; i < 3; i++) {
+        const proposedQuestion = generateQuestion(newState);
+        if (
+          !oldChoices[proposedQuestion.leftItem] && 
+          !oldChoices[proposedQuestion.rightItem]
+        ) return proposedQuestion;
+      }
       return generateQuestion(newState);
     }
   }
