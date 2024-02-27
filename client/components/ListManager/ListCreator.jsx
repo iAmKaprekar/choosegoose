@@ -74,7 +74,6 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
         {listItems}
       </div>
       <button onClick={createList}>Begin Sorting</button>
-      {errorBox}
     </div>
   )
 }
