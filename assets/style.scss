@@ -343,7 +343,7 @@ body {
       flex-direction: row;
     }
 
-    button {
+    #choiceButton {
       color: $white;
       background-color: $darkgray;
       font-family: $font-main;
@@ -353,6 +353,22 @@ body {
       width: 240px;
       max-width: 240px;
       min-height: 48px;
+    }
+
+    #stateRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 95%;
+
+      #previousButton {
+        height: 24px;
+        color: $white;
+        background-color: $darkgray;
+        font-family: $font-main;
+        border-radius: 6px;
+      }
     }
   }
 

@@ -9,6 +9,7 @@ import ProgressBar from './Sorting/ProgressBar';
 const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, steps, setSteps, sortingState, setSortingState, listName, size }) => {
 
   const [saving, setSaving] = useState(false);
+  const [savedState, setSavedState] = useState(null);
 
   const goBack = () => {
     if (!saving) {
@@ -40,11 +41,12 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
   const sendAnswer = (payload, oldChoices) => {
     const answeredState = handleAnswer(sortingState, payload);
     const newState = createMergers(answeredState);
-    setSortingState(newState);
     const newSteps = steps + 1;
-    setSteps(newSteps);
     const isComplete = determineCompletion(newState);
     const data = compileData(newState);
+    setSavedState(sortingState);
+    setSortingState(newState);
+    setSteps(newSteps);
     saveDataRequest(data, newSteps, isComplete);
     if (isComplete) {
       setComplete(true);
@@ -60,6 +62,14 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     }
   }
 
+  const revokeAnswer = () => {
+    const data = compileData(savedState);
+    const newSteps = steps - 1;
+    setSteps(newSteps);
+    setSortingState(savedState);
+    saveDataRequest(data, newSteps, false);
+  }
+
   const renderedPage = complete ? 
     <Results
       sortedList={sortingState.hold[0]}
@@ -68,6 +78,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
       sortingState={sortingState}
       sendAnswer={sendAnswer}
       saving={saving}
+      revokeAnswer={revokeAnswer}
     />;
   
   const progressBar = !complete ?
