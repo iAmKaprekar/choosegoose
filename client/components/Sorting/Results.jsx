@@ -3,8 +3,14 @@ import React from "react";
 const Results = ({ sortedList }) => {
 
   const resultElements = [];
+  let itemNumber = 1;
   for (const item of sortedList) {
-    resultElements.push(<h2 key={item}>{item}</h2>)
+    resultElements.push(
+      <div className='sortedItem'>
+        <p>{itemNumber++}</p>
+        <p key={item}>{item}</p>
+      </div>
+    )
   }
 
   return (
