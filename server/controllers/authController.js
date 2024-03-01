@@ -14,24 +14,23 @@ controller.handleDetails = async(req, res, next) => {
   try {
     const { username, password } = req.body;
     datedLog(`Handling user details for "${username}"...`);
-    if (
-      typeof username !== 'string' ||
-      username.length > 32 ||
-      username.length <= 0
-    ) return next({
-      status: 400,
-      log: `Invalid username format for "${username}".`,
-      message: {err: `Invalid username format.`}
-    })
-    if (
-      typeof password !== 'string' ||
-      password.length > 256 ||
-      password.length < 8
-    ) return next({
-      status: 400,
-      log: `Invalid password format for "${username}".`,
-      message: {err: `Invalid password format.`}
-    })
+    const validUsernameCharacters = new Set('abcdefghijklmnopqrtstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.split(''));
+    const validationError = (type, err) => {
+      next({
+        status: 400,
+        log: `Invalid ${type} format for "${username}".`,
+        message: { err }
+      })
+    }
+    if (typeof username !== 'string') return validationError('username', 'Invalid username format.');
+    if (typeof password !== 'string') return validationError('password', 'Invalid password format.');
+    if (username.length > 32) return validationError('username', 'Username must not be longer than 32 characters.');
+    if (username.length < 1) return validationError('username', 'Must provide a username.');
+    for (const char of username) {
+      if (!validUsernameCharacters.has(char)) return validationError('username', 'Username may only contain letters and numbers.');
+    }
+    if (password.length > 256) return validationError('password', 'Password must not be longer than 256 characters.');
+    if (password.length < 8) return validationError('password', 'Password must be at least 8 characters long.');
     res.locals.password = await bcrypt.hash(password, WORK_FACTOR);
     return next();
   } catch (err) {

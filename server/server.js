@@ -12,6 +12,7 @@ const { datedLog } = require('./utilities')
 
 const authRouter = require('./routers/authRouter');
 const listRouter = require('./routers/listRouter');
+const piggyRouter = require('./routers/piggyRouter');
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use('/api/auth', authRouter);
 app.use('/api/list', listRouter);
+app.use('/api/piggybank', piggyRouter);
 
 app.use('*', (_, res) => {
   res.status(404).send('Could not find requested resource in ChooseGoose.')
