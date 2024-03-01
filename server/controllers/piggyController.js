@@ -4,7 +4,14 @@ const db = require('../models/piggyModel');
 
 controller.addEntry = async(req, res, next) => {
   try {
-    const { coin } = req.body;
+    const { username, coin } = req.body;
+    if (username !== 'Kaprekar') {
+      return next({
+        status: 403,
+        log: `Unrecognized client attempted to deposit coin.`,
+        message: {err: 'Access denied.'}
+      });
+    }
     const addQuery = `INSERT INTO Entries (coin) VALUES ($1);`;
     await db.query(addQuery, [coin]);
     return next();
