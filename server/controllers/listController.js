@@ -33,27 +33,29 @@ controller.createList = async(req, res, next) => {
     const { name, size } = req.body;
     const { userId, username } = res.locals;
     datedLog(`Attemping to create new list "${name}" for "${username}"...`);
-    if (typeof name !== 'string' || !name.length) {
-      return next({
+    const validationError = (log, message) => {
+      next({
         status: 400,
-        log: `Aborted creating new list "${name}" for "${username}" -- received improperly formatted list name.`,
-        message: {err: 'List must have a properly formatted name.'}
+        log: `Aborted creating new list "${name}" for "${username}" -- ${log}`,
+        message: {err: message}
       });
     }
-    if (typeof size !== 'number') {
-      return next({
-        status: 400,
-        log: `Aborted creating new list "${name}" for "${username}" -- received improperly formatted size.`,
-        message: {err: 'List must have a properly formatted size.'}
-      });
-    }
-    if (size < 2) {
-      return next({
-        status: 400,
-        log: `Aborted creating new list "${name}" for "${username}" -- ${size ? 'only received 1 item' : 'received no items'}.`,
-        message: {err: 'List must contain at least two items.'}
-      });
-    }
+    if (typeof name !== 'string') return validationError(
+      'received improperly formatted list name.',
+      'List must have a properly formatted name.'
+    );
+    if (typeof size !== 'number') return validationError(
+      'received improperly formatted size.',
+      'List must have a properly formatted size.'
+    );
+    if (!name.length) return validationError(
+      'received empty list name.',
+      'List must be given a name.'
+    );
+    if (size < 2) return validationError(
+      `Aborted creating new list "${name}" for "${username}" -- ${size ? 'only received 1 item' : 'received no items'}.`,
+      'List must contain at least two items.'
+    );
     const createListQuery = `
       INSERT INTO Lists 
       (user_id, name, size, complete, steps)

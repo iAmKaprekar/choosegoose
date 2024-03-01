@@ -6,6 +6,8 @@ import ListItem from "./ListItem";
 
 const ListCreator = ({ goToSorting, items, setItems, listName, setListName, itemName, setItemName }) => {
 
+  const [error, setError] = useState('');
+
   const createList = async() => {
     const initialData = initializeData(items);
     const initialState = processData(initialData);
