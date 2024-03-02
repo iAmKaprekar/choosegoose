@@ -398,6 +398,9 @@ body {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-color: $blue;
 
         p {
           margin: 6px;
