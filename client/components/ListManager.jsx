@@ -35,7 +35,13 @@ const ListManager = ({ goToSorting }) => {
     }
     setListToDelete('');
     setListToDeleteId(null);
-    findLists();
+    const newLists = [];
+    for (const list of lists) {
+      if (list.name !== listToDelete) {
+        newLists.push(list);
+      }
+    }
+    setLists(newLists);
   }
 
   useEffect(() => {

@@ -6,9 +6,9 @@ const Results = ({ sortedList }) => {
   let itemNumber = 1;
   for (const item of sortedList) {
     resultElements.push(
-      <div className='sortedItem'>
-        <p>{itemNumber++}</p>
-        <p key={item}>{item}</p>
+      <div key={item} className='sortedItem'>
+        <p>{`${itemNumber++}.`}</p>
+        <p>{item}</p>
       </div>
     )
   }

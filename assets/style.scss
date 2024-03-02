@@ -225,6 +225,19 @@ body {
       border-radius: 12px;
     }
 
+    textarea {
+      padding: 3px;
+      height: 30px;
+      margin: 24px;
+      font-family: $font-main;
+      width: 300px;
+      font-size: 24px;
+      background-color: $white;
+      color: $black;
+      border-radius: 12px;
+      resize: none;
+    }
+
     #itemList {
       display: flex;
       flex-direction: column;
@@ -398,6 +411,9 @@ body {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-color: $blue;
 
         p {
           margin: 6px;

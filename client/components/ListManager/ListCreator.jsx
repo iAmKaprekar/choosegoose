@@ -36,10 +36,6 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
     });
   }
 
-  const checkKey = (e) => {
-    if (e.key === 'Enter') addItem();
-  }
-
   const addItem = () => {
     if (itemName && !items.includes(itemName)) {
       const newItems = items.slice();
@@ -47,6 +43,31 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
       setItems(newItems);
       setItemName('');
     }
+  }
+
+  const addItems = (proposedItems) => {
+    const newItems = items.slice();
+    for (const item of proposedItems) {
+      if (item && !newItems.includes(item)) {
+        newItems.push(item);
+      }
+    }
+    setItems(newItems);
+  }
+
+  const checkItemName = (str) => {
+    let newItemName = '';
+    const newItems = [];
+    for (const char of str) {
+      if (char === '\n') {
+        newItems.push(newItemName);
+        newItemName = '';
+      } else {
+        newItemName += char; 
+      }
+    }
+    addItems(newItems);
+    setItemName(newItemName);
   }
 
   const removeItem = (item) => {
@@ -69,7 +90,7 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
       </div>
       <h2>Add Items</h2>
       <div className='option'>
-        <input id='item' value={itemName} onKeyDown={checkKey} onChange={(e) => setItemName(e.target.value)}></input>
+        <textarea id='item' value={itemName} onChange={(e) => checkItemName(e.target.value)}></textarea>
         <button id='add' onClick={addItem}>+</button>
       </div>
       <div id='itemList'>
