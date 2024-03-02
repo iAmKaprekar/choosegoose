@@ -2,8 +2,6 @@ import React from "react";
 
 const ProgressBar = ({ percentage }) => {
 
-  console.log(percentage);
-
   const innerBarStyle = {
     width: 5 * percentage,
   }
