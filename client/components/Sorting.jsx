@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import {compileData, createMergers, determineCompletion, generateQuestion, handleAnswer, progressPercentage} from '../sorting';
+import {compileData, createMergers, determineCompletion, generateQuestion, handleAnswer, progressPermyriad} from '../sorting';
 
 import Question from './Sorting/Question';
 import Results from './Sorting/Results';
@@ -18,7 +18,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     }
   }
 
-  const saveDataRequest = async(data, steps, complete) => {
+  const saveDataRequest = async(data, steps, complete, progress) => {
     setSaving(true);
     const saveDataResponse = await fetch(
       `/api/list/${listId}`,
@@ -30,6 +30,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
           steps: steps,
           data: data,
           name: listName,
+          progress: progress
         })
       }
     )
@@ -44,10 +45,11 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
     const newSteps = steps + 1;
     const isComplete = determineCompletion(newState);
     const data = compileData(newState);
+    const progress = progressPermyriad(size, newState);
     setSavedState(sortingState);
     setSortingState(newState);
     setSteps(newSteps);
-    saveDataRequest(data, newSteps, isComplete);
+    saveDataRequest(data, newSteps, isComplete, progress);
     if (isComplete) {
       setComplete(true);
     } else {
@@ -83,7 +85,7 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
   
   const progressBar = !complete ?
     <ProgressBar
-      percentage={progressPercentage(size, steps)}
+      permyriad={progressPermyriad(size, sortingState)}
     /> :
     <></>;
 

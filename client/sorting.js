@@ -235,17 +235,18 @@ const determineCompletion = (state) => {
   return !mergers.length && !hold[1];
 }
 
-const progressPercentage = (size, steps) => {
-  let remaining = size - 1;
-  let power = 0;
-  let result = 0;
-  while (remaining > 0) {
-    result += (power + 1) * Math.min(2 ** power, remaining);
-    remaining -= 2 ** power;
-    power++;
+const progressPermyriad = (size, state) => {
+  const { mergers, hold } = state;
+  const totalMergers = size - 1;
+  const remainingMergers = mergers.length * 2 - (hold[0] ? 0 : 1);
+  let mergerProgress = 0;
+  for (const merger of mergers) {
+    const leftRemaining = merger.leftTop - merger.leftBottom + 1;
+    const rightRemaining = merger.rightTop - merger.rightBottom + 1;
+    mergerProgress += (merger.mergedArray.length - leftRemaining - rightRemaining) / (merger.mergedArray.length - 1);
   }
-  let percentage = Math.floor((steps / result) * 100);
-  return Math.min(percentage, 99);
+  const progress = 1 - (Math.log2(remainingMergers - mergerProgress + 1) / Math.log2(totalMergers + 1));
+  return Math.floor(progress * 10000);
 }
 
 export { 
@@ -256,5 +257,5 @@ export {
   handleAnswer,
   initializeData,
   processData,
-  progressPercentage,
+  progressPermyriad,
 };

@@ -37,7 +37,7 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
   }
 
   const addItem = () => {
-    if (itemName && !items.includes(itemName)) {
+    if (itemName && !items.includes(itemName) && itemName.length <= 100) {
       const newItems = items.slice();
       newItems.push(itemName);
       setItems(newItems);
@@ -48,7 +48,7 @@ const ListCreator = ({ goToSorting, items, setItems, listName, setListName, item
   const addItems = (proposedItems) => {
     const newItems = items.slice();
     for (const item of proposedItems) {
-      if (item && !newItems.includes(item)) {
+      if (item && !newItems.includes(item) && item.length <= 100) {
         newItems.push(item);
       }
     }

@@ -1,9 +1,11 @@
 import React from "react";
 
-const ProgressBar = ({ percentage }) => {
+const ProgressBar = ({ permyriad }) => {
+
+  console.log(permyriad);
 
   const innerBarStyle = {
-    width: 5 * percentage,
+    width: `${permyriad / 100}%`,
   }
   
   return (
