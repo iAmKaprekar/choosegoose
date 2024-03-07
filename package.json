@@ -1,6 +1,6 @@
 {
   "name": "choosegoose",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A web application assisting users in sorting lists of arbitrary items.",
   "main": "index.js",
   "scripts": {
