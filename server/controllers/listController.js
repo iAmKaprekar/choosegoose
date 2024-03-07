@@ -58,11 +58,11 @@ controller.createList = async(req, res, next) => {
     );
     const createListQuery = `
       INSERT INTO Lists 
-      (user_id, name, size, complete, steps)
-      VALUES ($1, $2, $3, $4, $5)
+      (user_id, name, size, complete, steps, progress)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING list_id;
     `
-    const createListResponse = await db.query(createListQuery, [userId, name, size, 0, 0]);
+    const createListResponse = await db.query(createListQuery, [userId, name, size, 0, 0, 0]);
     const listId = createListResponse.rows[0].list_id;
     res.locals.listId = listId;
     res.locals.list = {
@@ -86,7 +86,7 @@ controller.findLists = async(req, res, next) => {
     const { userId, username } = res.locals;
     datedLog(`Attemping to aquire all lists for user "${username}"...`);
     const listsQuery = `
-      SELECT name, size, steps, complete, list_id
+      SELECT name, size, steps, complete, progress, list_id
       FROM Lists
       WHERE user_id=$1;
     `;
@@ -109,7 +109,7 @@ controller.loadList = async(req, res, next) => {
   try {
     const { username, listId } = res.locals;
     datedLog(`Loading list with ID ${listId} for user "${username}"...`);
-    const listQuery = `SELECT name, steps, complete, data FROM Lists WHERE list_id=$1`;
+    const listQuery = `SELECT name, steps, complete, data, progress FROM Lists WHERE list_id=$1`;
     const listResponse = await db.query(listQuery, [listId]);
     res.locals.list = listResponse.rows[0];
     return next();
@@ -123,11 +123,11 @@ controller.loadList = async(req, res, next) => {
 
 controller.saveList = async(req, res, next) => {
   try {
-    const { name, data, complete, steps } = req.body;
+    const { name, data, complete, steps, progress } = req.body;
     const { username, listId } = res.locals;
     datedLog(`Attemping to save data in list "${name}" for "${username}"...`);
-    const saveQuery = `UPDATE Lists SET data = $1, complete=$2, steps=$3 WHERE list_id=$4`;
-    await db.query(saveQuery, [data, complete ? 1 : 0, steps || 0, listId]);
+    const saveQuery = `UPDATE Lists SET data = $1, complete=$2, steps=$3, progress=$4 WHERE list_id=$5`;
+    await db.query(saveQuery, [data, complete ? 1 : 0, steps || 0, progress || 0, listId]);
     res.locals.name = name;
     return next();
   } catch (err) {

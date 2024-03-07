@@ -25,16 +25,16 @@ const ListSelector = ({ goToSorting, lists, setListToDelete, setListToDeleteId, 
 
   for (let i = lists.length - 1; i >= 0; i--) {
     const list = lists[i];
-    const {list_id, name, size, complete, steps} = list;
+    const {list_id, name, size, complete, progress} = list;
     listElements.push(
       <ExistingList
         key={i}
         name={name}
         size={size}
         complete={complete}
-        steps={steps}
         id={list_id}
         openList={openList}
+        permyriad={progress}
         promptDeletion={() => (setListToDelete(name), setListToDeleteId(list_id))}
       />
     )
