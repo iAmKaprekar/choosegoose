@@ -52,9 +52,17 @@ controller.createList = async(req, res, next) => {
       'received empty list name.',
       'List must be given a name.'
     );
+    if (name.length > 50) return validationError(
+      'received invalid list name length.',
+      'List name must be no more than 50 characters.'
+    );
     if (size < 2) return validationError(
-      `Aborted creating new list "${name}" for "${username}" -- ${size ? 'only received 1 item' : 'received no items'}.`,
+      `${size ? 'only received 1 item' : 'received no items'}.`,
       'List must contain at least two items.'
+    );
+    if (size > 10000) return validationError(
+      `received invalid list size.`,
+      'List must not contain more than 10000 items.'
     );
     const createListQuery = `
       INSERT INTO Lists 
