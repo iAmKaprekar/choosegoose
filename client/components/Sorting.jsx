@@ -67,9 +67,10 @@ const Sorting = ({ listId, setListId, goToListManager, complete, setComplete, st
   const revokeAnswer = () => {
     const data = compileData(savedState);
     const newSteps = steps - 1;
+    const progress = progressPermyriad(size, savedState);
     setSteps(newSteps);
     setSortingState(savedState);
-    saveDataRequest(data, newSteps, false);
+    saveDataRequest(data, newSteps, false, progress);
   }
 
   const renderedPage = complete ? 
